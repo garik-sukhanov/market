@@ -11,11 +11,10 @@
   --shadow:
     rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
 
-  --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
+  --main-font: Cairo, Roboto, sans-serif;
   --mono: ui-monospace, Consolas, monospace;
 
-  font: 18px/145% var(--sans);
+  font: 18px/145% var(--main-font);
   letter-spacing: 0.18px;
   color-scheme: light dark;
   color: var(--text);
@@ -68,7 +67,7 @@ body {
 
 h1,
 h2 {
-  font-family: var(--heading);
+  font-family: var(--main-font);
   font-weight: 500;
   color: var(--text-h);
 }
