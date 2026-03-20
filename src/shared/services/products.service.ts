@@ -2,14 +2,14 @@ import { instance } from "../api/instance";
 import type {
   CreateProductDto,
   GetProductsResponseDto,
-  ReqListListQueryParams,
+  ReqListQueryParams,
   ReqSearchQueryParams,
 } from "../types/requests";
 
-class ProductService {
+class ProductsService {
   private _PRODUCTS = "/products";
 
-  getList(params?: ReqListListQueryParams) {
+  getList(params?: ReqListQueryParams) {
     return instance.get<GetProductsResponseDto>(this._PRODUCTS, { params });
   }
 
@@ -24,4 +24,4 @@ class ProductService {
   }
 }
 
-export const productService = new ProductService();
+export const productsService = new ProductsService();

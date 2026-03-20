@@ -1,4 +1,13 @@
+import { useProductsQuery } from "@/shared/hooks/products";
+
 function ProductsListPage() {
+  const { data } = useProductsQuery();
+  const { products } = data || {};
+
+  if (!products) {
+    return null;
+  }
+
   return (
     <section id="center">
       <h1>Товары</h1>
@@ -8,12 +17,14 @@ function ProductsListPage() {
       <div>
         <h2>Все позиции</h2>
         <ul id="product-list">
-          <li>
-            <img src="https://via.placeholder.com/150" alt="Товар 1" />
-            <h3>Товар 1</h3>
-            <p>Описание товара 1</p>
-            <span>Цена: 1000 руб.</span>
-          </li>
+          {products.map((product) => (
+            <li key={product.id}>
+              <img src={product.image} alt={product.title} />
+              <h3>{product.title}</h3>
+              <p>{product.description}</p>
+              <span>Цена: {product.price} руб.</span>
+            </li>
+          ))}
         </ul>
       </div>
     </section>

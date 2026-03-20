@@ -2,7 +2,7 @@ import type { ProductType } from ".";
 
 export type SelectParamsType = "title" | "price";
 export type OrderParamsType = "asc" | "desc";
-export type ReqListListQueryParams = {
+export type ReqListQueryParams = {
   limit?: number;
   skip?: number;
   select?: SelectParamsType;
@@ -10,7 +10,7 @@ export type ReqListListQueryParams = {
   order?: OrderParamsType;
 };
 
-export type ReqSearchQueryParams = ReqListListQueryParams & {
+export type ReqSearchQueryParams = ReqListQueryParams & {
   q: string;
 };
 
