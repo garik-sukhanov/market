@@ -8,7 +8,6 @@ export const router = createBrowserRouter([
   {
     path: "/",
     Component: ProductsListPage,
-    // loader: loadRootData,
   },
   {
     path: "/login",
