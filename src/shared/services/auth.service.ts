@@ -7,7 +7,12 @@ class AuthService {
   private _AUTH: string = "/auth";
 
   public login(dto: LoginDto): Promise<AxiosResponse<LoginResponseDto>> {
-    return instance.post(`${this._AUTH}/login`, dto);
+    return instance.post(`${this._AUTH}/login`, dto, {
+      withCredentials: true,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
   }
 }
 

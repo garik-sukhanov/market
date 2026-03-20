@@ -1,15 +1,29 @@
-import { Input } from "@/shared/components/ui/input";
+import { LoginForm, type LoginFormValues } from "@/shared/components/forms";
+import {
+  Card,
+  CardTitle,
+  Flex,
+  Link,
+  Typography,
+} from "@/shared/components/ui";
+import { useLoginMutation } from "@/shared/hooks";
 
 function LoginPage() {
+  const { mutate } = useLoginMutation();
+
+  const onSubmit = (data: LoginFormValues) => mutate(data);
+
   return (
-    <section id="center">
-      <h1>Вход</h1>
-      <form id="login-form">
-        <Input type="text" placeholder="Логин" />
-        <Input type="password" placeholder="Пароль" />
-        <button type="submit">Войти</button>
-      </form>
-    </section>
+    <Card>
+      <Flex $align="top" $justify="space-between">
+        <CardTitle>Вход в аккаунт</CardTitle>
+      </Flex>
+
+      <LoginForm onFinish={onSubmit} id="login-form" />
+      <Typography $variant="body">
+        Нет аккаунта? <Link to="#">зарегистрироваться</Link>
+      </Typography>
+    </Card>
   );
 }
 
