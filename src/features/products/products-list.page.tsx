@@ -1,31 +1,64 @@
+import { useState } from "react";
+
+import { Input, Pagination, Table } from "@/shared/components";
 import { useProductsQuery } from "@/shared/hooks/products";
 
-function ProductsListPage() {
-  const { data } = useProductsQuery();
-  const { products } = data || {};
+const LIMIT = 10;
 
-  if (!products) {
-    return null;
-  }
+function ProductsListPage() {
+  const [currentPage, setCurrentPage] = useState(1);
+  const { data, isLoading } = useProductsQuery({
+    limit: LIMIT,
+    skip: (currentPage - 1) * LIMIT,
+  });
+  const { products } = data || {};
 
   return (
     <section id="center">
       <h1>Товары</h1>
       <form id="search-form">
-        <input type="text" placeholder="Введите поисковый запрос" />
+        <Input type="text" placeholder="Введите поисковый запрос" />
       </form>
       <div>
         <h2>Все позиции</h2>
-        <ul id="product-list">
-          {products.map((product) => (
-            <li key={product.id}>
-              <img src={product.images[0]} alt={product.title} />
-              <h3>{product.title}</h3>
-              <p>{product.description}</p>
-              <span>Цена: {product.price} руб.</span>
-            </li>
-          ))}
-        </ul>
+        <Table
+          loading={isLoading}
+          columns={[
+            {
+              title: "Наименование",
+              dataIndex: "title",
+              key: "title",
+            },
+            {
+              title: "Вендор",
+              dataIndex: "brand",
+              key: "brand",
+            },
+            {
+              title: "Артикул",
+              dataIndex: "id",
+              key: "id",
+            },
+            {
+              title: "Оценка",
+              dataIndex: "rating",
+              key: "rating",
+            },
+            {
+              title: "Цена",
+              dataIndex: "price",
+              key: "price",
+            },
+          ]}
+          dataSource={products}
+          rowKey={(record) => record.id}
+        />
+        <Pagination
+          current={currentPage}
+          pageSize={LIMIT}
+          total={data?.total || 0}
+          onChange={(page) => setCurrentPage(page)}
+        />
       </div>
     </section>
   );

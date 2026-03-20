@@ -1,37 +1,12 @@
 export const palette = {
   white: "#FFFFFF",
   black: "#000000",
-  grey: {
-    100: "#F5F5F5",
-    200: "#EEEEEE",
-    300: "#E0E0E0",
-    400: "#BDBDBD",
-    500: "#9E9E9E",
-    600: "#757575",
-    700: "#616161",
-    800: "#424242",
-    900: "#212121",
-  },
-  purple: {
-    100: "#F3E5F5",
-    200: "#E1BEE7",
-    300: "#CE93D8",
-    400: "#BA68C8",
-    500: "#9C27B0",
-    600: "#8E24AA",
-    700: "#7B1FA2",
-    800: "#6A1B9A",
-    900: "#4A148C",
-    light: "#A864EC",
-    dark: "#884FC1",
-  },
-  green: {
-    light: "#F3FAE1",
-  },
-  dark: {
-    base: "#333232",
-    container: "#1d1d1d",
-  },
+  grey1: "#EBEBEB",
+  grey2: "#9C9C9C",
+  grey3: "#B2B3B9",
+  grey4: "#6C6C6C",
+  blue: "#242EDB",
+  lightBlue: "#367AFF",
 };
 
 const shadows = {
@@ -59,11 +34,12 @@ const commonTokens = {
 export const lightTokens = {
   ...commonTokens,
   colors: {
-    bgBase: palette.grey[300],
-    textBase: palette.dark.base,
-    primary: palette.purple.dark,
-    bgContainer: palette.grey[100],
-    main: palette.purple.dark,
+    bgBase: "#F3F3F3",
+    bgSecondary: "#F9F9F9",
+    textBase: palette.black,
+    primary: palette.lightBlue,
+    bgContainer: "#F9F9F9",
+    accent: palette.lightBlue,
   },
 };
 

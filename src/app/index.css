@@ -1,6 +1,6 @@
 :root {
   --text: #08060d;
-  --bg: #fff;
+  --bg: #f9f9f9;
   --main-font: Cairo, Roboto, sans-serif;
 
   font: 18px/145% var(--main-font);
