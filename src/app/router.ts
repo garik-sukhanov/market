@@ -8,6 +8,7 @@ import { ProtectedRoute } from "./protected-route";
 
 export const router = createBrowserRouter([
   {
+    HydrateFallback: RouteFallback,
     path: ROUTES.LOGIN,
     lazy: async () => import("@/features/login.page"),
   },
