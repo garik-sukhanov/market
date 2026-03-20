@@ -1,27 +1,19 @@
 import { instance } from "../api/instance";
-import type { CreateProductDto, GetProductsResponseDto } from "../types/dto";
+import type {
+  CreateProductDto,
+  GetProductsResponseDto,
+  ReqListListQueryParams,
+  ReqSearchQueryParams,
+} from "../types/requests";
 
-type SelectParamsType = "title" | "price";
-type OrderParamsType = "asc" | "desc";
-type ProductListParams = {
-  limit?: number;
-  skip?: number;
-  select?: SelectParamsType;
-  sortBy?: SelectParamsType;
-  order?: OrderParamsType;
-};
-
-type SearchParamsType = ProductListParams & {
-  q: string;
-};
 class ProductService {
   private _PRODUCTS = "/products";
 
-  getList(params?: ProductListParams) {
+  getList(params?: ReqListListQueryParams) {
     return instance.get<GetProductsResponseDto>(this._PRODUCTS, { params });
   }
 
-  search(params?: SearchParamsType) {
+  search(params?: ReqSearchQueryParams) {
     return instance.get<GetProductsResponseDto>(`${this._PRODUCTS}/search`, {
       params,
     });

@@ -1,5 +1,19 @@
 import type { ProductType } from ".";
 
+export type SelectParamsType = "title" | "price";
+export type OrderParamsType = "asc" | "desc";
+export type ReqListListQueryParams = {
+  limit?: number;
+  skip?: number;
+  select?: SelectParamsType;
+  sortBy?: SelectParamsType;
+  order?: OrderParamsType;
+};
+
+export type ReqSearchQueryParams = ReqListListQueryParams & {
+  q: string;
+};
+
 // AUTH
 export type LoginDto = {
   username: string;
