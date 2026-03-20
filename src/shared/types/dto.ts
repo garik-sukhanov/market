@@ -25,3 +25,5 @@ export type GetProductsResponseDto = {
   skip: number;
   limit: number;
 };
+
+export type CreateProductDto = Partial<ProductType>;
