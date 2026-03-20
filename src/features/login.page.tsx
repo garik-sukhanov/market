@@ -1,6 +1,6 @@
 import { Input } from "@/shared/components/ui/input";
 
-export default function LoginPage() {
+function LoginPage() {
   return (
     <section id="center">
       <h1>Вход</h1>
@@ -12,3 +12,5 @@ export default function LoginPage() {
     </section>
   );
 }
+
+export const Component = LoginPage;

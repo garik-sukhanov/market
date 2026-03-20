@@ -1,16 +1,26 @@
-import { lazy } from "react";
 import { createBrowserRouter } from "react-router";
 
-const LoginPage = lazy(() => import("@/features/login.page"));
-const ProductsListPage = lazy(() => import("@/features/products-list.page"));
+import { RouteFallback } from "@/shared/components/route-fallback";
+import { ROUTES } from "@/shared/model/routes";
+
+import { protectedLoader } from "./protected-loader";
+import { ProtectedRoute } from "./protected-route";
 
 export const router = createBrowserRouter([
   {
-    path: "/",
-    Component: ProductsListPage,
+    path: ROUTES.LOGIN,
+    lazy: async () => import("@/features/login.page"),
   },
   {
-    path: "/login",
-    Component: LoginPage,
+    path: ROUTES.PRODUCTS_LIST,
+    loader: protectedLoader,
+    Component: ProtectedRoute,
+    HydrateFallback: RouteFallback,
+    children: [
+      {
+        index: true,
+        lazy: async () => import("@/features/products-list.page"),
+      },
+    ],
   },
 ]);

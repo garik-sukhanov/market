@@ -1,4 +1,4 @@
-export default function ProductsListPage() {
+function ProductsListPage() {
   return (
     <section id="center">
       <h1>Товары</h1>
@@ -19,3 +19,5 @@ export default function ProductsListPage() {
     </section>
   );
 }
+
+export const Component = ProductsListPage;
