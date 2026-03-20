@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router";
 import { useMutation } from "@tanstack/react-query";
+import axios from "axios";
 
 // import { useNotification } from "@/shared/context";
 import { useSession } from "@/shared/model/session";
@@ -21,6 +22,15 @@ export const useLoginMutation = () => {
 
     onError: (err) => {
       // notifyError("Ошибка авторизации");
+      if (axios.isAxiosError(err)) {
+        console.log(
+          "ошибка авторизации",
+          err.response?.status,
+          err.response?.data,
+        );
+        return;
+      }
+
       console.log("ошибка авторизации", err);
     },
   });

@@ -50,13 +50,14 @@ export const LoginForm = ({ onFinish, id }: LoginFormProps) => {
         control={control}
         render={({ field }) => (
           <InputWrapper>
-            <Label htmlFor="login-email">Email</Label>
+            <Label htmlFor="login-username">Username</Label>
             <Input
               {...field}
-              id="login-email"
+              id="login-username"
               $error={!!errors.username}
               $fullWidth
-              placeholder="m@example.com"
+              placeholder="emilys"
+              autoComplete="username"
             />
             {errors.username && (
               <ErrorText>{errors.username.message}</ErrorText>
@@ -76,6 +77,7 @@ export const LoginForm = ({ onFinish, id }: LoginFormProps) => {
               type="password"
               $error={!!errors.password}
               $fullWidth
+              autoComplete="current-password"
             />
             {errors.password && (
               <ErrorText>{errors.password.message}</ErrorText>

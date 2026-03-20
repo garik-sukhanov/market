@@ -2,14 +2,9 @@ import axios from "axios";
 
 import { BASE_URL, TOKEN_KEY } from "../constants";
 
-// disable cors
-
 export const instance = axios.create({
   baseURL: BASE_URL,
   timeout: 10000,
-  headers: {
-    "X-Custom-Header": "foobar",
-  },
 });
 
 instance.interceptors.request.use((config) => {
