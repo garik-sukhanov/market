@@ -10,6 +10,7 @@ import {
   Table,
   Typography,
 } from "@/shared/components";
+import { LogoutButton } from "@/shared/components";
 import { useProductsSearchQuery } from "@/shared/hooks/products";
 
 const LIMIT = 10;
@@ -42,12 +43,12 @@ function ProductsListPage() {
             onChange={onChangeSearchQuery}
           />
         </form>
-        <Button>Выйти</Button>
+        <LogoutButton />
       </StyledHederWrapper>
       <StyledTableWrapper>
-        <Flex>
+        <Flex $fullWidth $justify="space-between">
           <Typography $variant="h2">Все позиции</Typography>
-          <Flex>
+          <Flex $gap={8}>
             <Button
               $variant="secondary"
               icon={<IconArrowsClockwise aria-hidden="true" />}
