@@ -57,7 +57,8 @@ const Button = styled.button<ButtonProps>`
         return css`
           background-color: ${theme.colors.primary};
           color: ${theme.colors.bgContainer};
-          box-shadow: ${theme.shadows.primary};
+          border-radius: ${({ theme }) => theme.spacing[6]};
+          padding: 10px 20px;
           &:hover:not(:disabled) {
             filter: brightness(1.1);
           }

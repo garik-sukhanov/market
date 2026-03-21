@@ -46,7 +46,7 @@ export const lightTokens = {
     bgBase: "#F3F3F3",
     bgSecondary: "#F9F9F9",
     textBase: palette.black,
-    primary: palette.lightBlue,
+    primary: palette.blue,
     bgContainer: "#F9F9F9",
     accent: palette.lightBlue,
   },
