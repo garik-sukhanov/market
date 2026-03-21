@@ -5,7 +5,7 @@ import { Button, type ButtonProps } from "../ui";
 export const LogoutButton = (props: ButtonProps) => {
   const { logout } = useSession();
   return (
-    <Button {...props} onClick={logout}>
+    <Button $variant="ghost" {...props} onClick={logout}>
       Выход
     </Button>
   );

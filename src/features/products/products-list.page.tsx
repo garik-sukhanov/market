@@ -34,15 +34,13 @@ function ProductsListPage() {
   return (
     <Section id="center">
       <StyledHederWrapper>
-        <h1>Товары</h1>
-        <form id="search-form">
-          <SearchInput
-            type="text"
-            placeholder="Введите поисковый запрос"
-            value={searchQuery}
-            onChange={onChangeSearchQuery}
-          />
-        </form>
+        <Typography $variant="h1">Товары</Typography>
+        <SearchInput
+          type="text"
+          placeholder="Введите поисковый запрос"
+          value={searchQuery}
+          onChange={onChangeSearchQuery}
+        />
         <LogoutButton />
       </StyledHederWrapper>
       <StyledTableWrapper>

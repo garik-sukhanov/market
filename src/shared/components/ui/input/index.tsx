@@ -67,8 +67,8 @@ const InputAffix = styled.span<{ $position: "left" | "right" }>`
   transform: translateY(-50%);
   ${({ $position, theme }) =>
     $position === "left"
-      ? `left: ${theme.spacing[4]};`
-      : `right: ${theme.spacing[4]};`}
+      ? `left: ${theme.spacing[20]};`
+      : `right: ${theme.spacing[20]};`}
   width: ${({ theme }) => theme.spacing[24]};
   height: ${({ theme }) => theme.spacing[24]};
   display: inline-flex;
