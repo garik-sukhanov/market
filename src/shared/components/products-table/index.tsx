@@ -23,8 +23,10 @@ const formatRating = (value: number) => {
 
 const RatingText = styled.span<{ $danger: boolean }>`
   font-weight: 600;
+  font-size: 16px;
+  line-height: 1.4;
   color: ${({ theme, $danger }) =>
-    $danger ? "#cf1322" : theme.colors.textBase};
+    $danger ? theme.colors.error : theme.colors.textBase};
 `;
 
 const Rating = ({ value, max }: { value: RatingValue; max: number }) => {
@@ -32,9 +34,10 @@ const Rating = ({ value, max }: { value: RatingValue; max: number }) => {
   if (numeric === null) return <span>—</span>;
 
   return (
-    <RatingText $danger={numeric < 3}>
-      {formatRating(numeric)}/{max}
-    </RatingText>
+    <>
+      <RatingText $danger={numeric < 3}>{formatRating(numeric)}</RatingText>/
+      <RatingText $danger={false}>{max}</RatingText>
+    </>
   );
 };
 
@@ -43,6 +46,8 @@ type PriceValue = number | string | null | undefined;
 const PriceText = styled.span`
   font-family: ${({ theme }) => theme.fonts.mono};
   font-variant-numeric: tabular-nums;
+  font-size: 16px;
+  line-height: 1.4;
 `;
 
 const PriceMain = styled.span`
@@ -121,11 +126,17 @@ export const ProductsTable = ({
           title: "Вендор",
           dataIndex: "brand",
           key: "brand",
+          render: (value) => (
+            <Typography $weight={"bold"}>{value as string}</Typography>
+          ),
         },
         {
           title: "Артикул",
           dataIndex: "id",
           key: "id",
+          render: (value) => (
+            <Typography $uppercase>{value as string}</Typography>
+          ),
         },
         {
           title: "Оценка",

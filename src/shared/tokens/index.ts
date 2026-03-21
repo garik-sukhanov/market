@@ -8,6 +8,7 @@ export const palette = {
   grey5: "#6C6C6C",
   blue: "#242EDB",
   lightBlue: "#367AFF",
+  danger: "#F11010",
 };
 
 const shadows = {
@@ -16,8 +17,7 @@ const shadows = {
 
 const fonts = {
   sans: 'Cairo, "Open Sans", Roboto, sans-serif',
-  mono:
-    '"Roboto Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace',
+  mono: '"Roboto Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace',
 };
 
 const spacing = {
@@ -58,6 +58,7 @@ export const lightTokens = {
     primary: palette.blue,
     bgContainer: "#F9F9F9",
     accent: palette.lightBlue,
+    error: palette.danger,
   },
 };
 
