@@ -1,5 +1,6 @@
 import { IconSearch } from "@/shared/assets";
-import { Input, type StyledInputProps } from "@/shared/components/ui";
+
+import { Input, type StyledInputProps } from "../input";
 
 export const SearchInput = ({ style, ...props }: StyledInputProps) => (
   <Input
