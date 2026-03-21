@@ -1,4 +1,5 @@
 import { type ChangeEvent, useState } from "react";
+import styled from "styled-components";
 
 import {
   Flex,
@@ -47,6 +48,15 @@ function ProductsListPage() {
               title: "Наименование",
               dataIndex: "title",
               key: "title",
+              render: (value, { images, brand }) => (
+                <Flex>
+                  <Photo src={images?.[0] || ""} alt={value as string} />
+                  <Flex $vertical>
+                    <Typography $weight="bold">{value as string}</Typography>
+                    <Typography $variant="body">{brand as string}</Typography>
+                  </Flex>
+                </Flex>
+              ),
             },
             {
               title: "Вендор",
@@ -90,4 +100,10 @@ function ProductsListPage() {
   );
 }
 
+const Photo = styled.img`
+  width: 48px;
+  height: 48px;
+  object-fit: cover;
+  border-radius: ${({ theme }) => theme.spacing[4]};
+`;
 export const Component = ProductsListPage;
