@@ -2,6 +2,7 @@ import styled from "styled-components";
 
 import { Flex, Table, Typography } from "@/shared/components";
 import type { RowSelection } from "@/shared/components/ui/table";
+import { lightTokens } from "@/shared/tokens";
 import type { ProductType } from "@/shared/types";
 import type { OrderParamsType } from "@/shared/types/requests";
 
@@ -113,11 +114,13 @@ export const ProductsTable = ({
           dataIndex: "title",
           key: "title",
           render: (value, { images, category }) => (
-            <Flex>
+            <Flex $gap={4}>
               <Photo src={images?.[0] || ""} alt={value as string} />
               <Flex $vertical>
                 <Typography $weight="bold">{value as string}</Typography>
-                <Typography $variant="body">{category as string}</Typography>
+                <Typography $variant="body" $color={lightTokens.colors.grey3}>
+                  {category as string}
+                </Typography>
               </Flex>
             </Flex>
           ),

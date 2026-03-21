@@ -5,6 +5,7 @@ type TypographyVariant = "h1" | "h2" | "h3" | "h4" | "body" | "small";
 
 interface TypographyProps extends ComponentProps<"span"> {
   $variant?: TypographyVariant;
+  $size?: number | string;
   $color?: string;
   $weight?: number | string;
   $align?: "left" | "center" | "right";
@@ -74,6 +75,11 @@ const Typography = styled.span<TypographyProps>`
   margin: 0;
   text-transform: ${({ $uppercase }) => ($uppercase ? "uppercase" : "none")};
   ${({ $variant }) => getVariantStyles($variant)}
+  ${({ $size }) =>
+    $size != null &&
+    css`
+      font-size: ${typeof $size === "number" ? `${$size}px` : $size};
+    `}
 `;
 
 export { Typography };
