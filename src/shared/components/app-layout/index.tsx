@@ -24,7 +24,6 @@ const OutsideLayout = styled.div`
 `;
 
 const StyledContent = styled.main`
-  padding: 16px;
   display: flex;
   flex-direction: column;
   flex: 1;

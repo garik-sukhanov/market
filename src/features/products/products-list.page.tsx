@@ -2,9 +2,10 @@ import { type ChangeEvent, useState } from "react";
 import styled from "styled-components";
 
 import {
+  Button,
   Flex,
-  Input,
   Pagination,
+  SearchInput,
   Table,
   Typography,
 } from "@/shared/components";
@@ -29,17 +30,20 @@ function ProductsListPage() {
   const { products } = data || {};
 
   return (
-    <section id="center">
-      <h1>Товары</h1>
-      <form id="search-form">
-        <Input
-          type="text"
-          placeholder="Введите поисковый запрос"
-          value={searchQuery}
-          onChange={onChangeSearchQuery}
-        />
-      </form>
-      <div>
+    <Section id="center">
+      <StyledHederWrapper>
+        <h1>Товары</h1>
+        <form id="search-form">
+          <SearchInput
+            type="text"
+            placeholder="Введите поисковый запрос"
+            value={searchQuery}
+            onChange={onChangeSearchQuery}
+          />
+        </form>
+        <Button>Выйти</Button>
+      </StyledHederWrapper>
+      <StyledTableWrapper>
         <h2>Все позиции</h2>
         <Table
           loading={isLoading}
@@ -95,15 +99,39 @@ function ProductsListPage() {
             onChange={(page) => setCurrentPage(page)}
           />
         </Flex>
-      </div>
-    </section>
+      </StyledTableWrapper>
+    </Section>
   );
 }
+
+const StyledHederWrapper = styled(Flex)`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: ${({ theme }) => theme.colors.bgContainer};
+  padding: ${({ theme }) => theme.spacing[24]};
+  gap: ${({ theme }) => theme.spacing[24]};
+`;
 
 const Photo = styled.img`
   width: 48px;
   height: 48px;
   object-fit: cover;
   border-radius: ${({ theme }) => theme.spacing[4]};
+  background-color: ${({ theme }) => theme.colors.grey2};
 `;
+
+const StyledTableWrapper = styled.div`
+  padding: 30px 24px;
+  background-color: ${({ theme }) => theme.colors.bgContainer};
+`;
+
+const Section = styled.section`
+  padding: 24px 0 0 0;
+  background-color: ${({ theme }) => theme.colors.bgBase};
+  display: flex;
+  flex-direction: column;
+  gap: ${({ theme }) => theme.spacing[24]};
+`;
+
 export const Component = ProductsListPage;

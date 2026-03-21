@@ -6,7 +6,14 @@ export {
 } from "./button";
 export { Card, CardTitle } from "./card";
 export { Flex } from "./flex";
-export { ErrorText, Input, InputWrapper, Label, TextArea } from "./input";
+export {
+  ErrorText,
+  Input,
+  InputWrapper,
+  Label,
+  type StyledInputProps,
+  TextArea,
+} from "./input";
 export { Link } from "./link";
 export { LoadLine } from "./load-line";
 export { Modal } from "./modal";
