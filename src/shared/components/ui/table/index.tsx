@@ -15,16 +15,17 @@ const StyledTable = styled.table`
 `;
 
 const Th = styled.th`
-  padding: ${({ theme }) => theme.spacing[4]};
-  border-bottom: 2px solid ${({ theme }) => theme.colors.textBase};
+  padding: ${({ theme }) => theme.spacing[12]};
+  border-bottom: 1px solid ${({ theme }) => theme.colors.grey3};
+  font-size: 16px;
   font-weight: 700;
   background-color: ${({ theme }) => theme.colors.bgContainer};
-  color: ${({ theme }) => theme.colors.textBase};
+  color: ${({ theme }) => theme.colors.grey3};
 `;
 
 const Td = styled.td`
-  padding: ${({ theme }) => theme.spacing[4]};
-  border-bottom: 1px solid ${({ theme }) => theme.colors.grey2};
+  padding: ${({ theme }) => theme.spacing[12]};
+  border-bottom: 2px solid ${({ theme }) => theme.colors.grey2};
   color: ${({ theme }) => theme.colors.textBase};
 `;
 
