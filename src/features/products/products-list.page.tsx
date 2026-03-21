@@ -138,6 +138,9 @@ const Photo = styled.img`
 const StyledTableWrapper = styled.div`
   padding: 30px 24px;
   background-color: ${({ theme }) => theme.colors.bgContainer};
+  display: flex;
+  flex-direction: column;
+  gap: ${({ theme }) => theme.spacing[40]};
 `;
 
 const Section = styled.section`
