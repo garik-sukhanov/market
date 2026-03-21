@@ -6,6 +6,7 @@ export type StyledInputProps = ComponentProps<"input"> & {
   $fullWidth?: boolean;
   $prefix?: React.ReactNode;
   $suffix?: React.ReactNode;
+  $wrapperProps?: ComponentProps<"div">;
 };
 
 type InternalInputProps = Omit<StyledInputProps, "$prefix" | "$suffix"> & {
@@ -95,7 +96,7 @@ const InputAffix = styled.span<{ $position: "left" | "right" }>`
 `;
 
 const Input = forwardRef<HTMLInputElement, StyledInputProps>(
-  ({ $prefix, $suffix, $fullWidth, ...props }, ref) => {
+  ({ $prefix, $suffix, $fullWidth, $wrapperProps, ...props }, ref) => {
     const hasPrefix = !!$prefix;
     const hasSuffix = !!$suffix;
 
@@ -104,7 +105,11 @@ const Input = forwardRef<HTMLInputElement, StyledInputProps>(
     }
 
     return (
-      <InputAffixContainer $fullWidth={$fullWidth} $disabled={props.disabled}>
+      <InputAffixContainer
+        $fullWidth={$fullWidth}
+        $disabled={props.disabled}
+        {...$wrapperProps}
+      >
         {hasPrefix && <InputAffix $position="left">{$prefix}</InputAffix>}
         <StyledInput
           ref={ref}
