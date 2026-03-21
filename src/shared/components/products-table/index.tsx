@@ -127,7 +127,7 @@ export const ProductsTable = ({
           dataIndex: "brand",
           key: "brand",
           render: (value) => (
-            <Typography $weight={"bold"}>{value as string}</Typography>
+            <Typography $weight="bold">{value as string}</Typography>
           ),
         },
         {

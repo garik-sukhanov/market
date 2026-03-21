@@ -18,25 +18,21 @@ const getVariantStyles = (variant: TypographyVariant = "body") => {
       return css`
         font-size: 32px;
         line-height: 1.2;
-        font-weight: 700;
       `;
     case "h2":
       return css`
         font-size: 24px;
         line-height: 1.3;
-        font-weight: 600;
       `;
     case "h3":
       return css`
         font-size: 20px;
         line-height: 1.4;
-        font-weight: 600;
       `;
     case "h4":
       return css`
         font-size: 18px;
         line-height: 1.4;
-        font-weight: 500;
       `;
     case "small":
       return css`
@@ -52,9 +48,27 @@ const getVariantStyles = (variant: TypographyVariant = "body") => {
   }
 };
 
+const getDefaultWeight = (variant: TypographyVariant = "body") => {
+  switch (variant) {
+    case "h1":
+      return 700;
+    case "h2":
+    case "h3":
+      return 600;
+    case "h4":
+      return 500;
+    case "body":
+    case "small":
+    default:
+      return "normal";
+  }
+};
+
 const Typography = styled.span<TypographyProps>`
+  display: ${({ $fullWidth }) => ($fullWidth ? "block" : "inline-block")};
   color: ${({ $color, theme }) => $color || theme.colors.textBase};
-  font-weight: ${({ $weight }) => $weight || "normal"};
+  font-weight: ${({ $variant, $weight }) =>
+    $weight ?? getDefaultWeight($variant)};
   text-align: ${({ $align }) => $align || "left"};
   width: ${({ $fullWidth }) => ($fullWidth ? "100%" : "auto")};
   margin: 0;
