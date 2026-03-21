@@ -1,21 +1,21 @@
-import { createElement } from "react";
-import { createBrowserRouter, Outlet } from "react-router";
+import { createBrowserRouter } from "react-router";
 
-import { AppLayout, AuthLayout } from "@/shared/components";
+import {
+  AppLayoutRoute,
+  AuthLayout,
+  RouteErrorBoundary,
+} from "@/shared/components";
 import { RouteFallback } from "@/shared/components/route-fallback";
 import { ROUTES } from "@/shared/model/routes";
 
 import { protectedLoader } from "./protected-loader";
 import { ProtectedRoute } from "./protected-route";
 
-function AppLayoutRoute() {
-  return createElement(AppLayout, { children: createElement(Outlet) });
-}
-
 export const router = createBrowserRouter([
   {
     HydrateFallback: RouteFallback,
     Component: AuthLayout,
+    ErrorBoundary: RouteErrorBoundary,
     children: [
       {
         path: ROUTES.LOGIN,
@@ -28,6 +28,7 @@ export const router = createBrowserRouter([
     loader: protectedLoader,
     Component: ProtectedRoute,
     HydrateFallback: RouteFallback,
+    ErrorBoundary: RouteErrorBoundary,
     children: [
       {
         Component: AppLayoutRoute,
