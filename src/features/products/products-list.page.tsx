@@ -19,9 +19,9 @@ const LIMIT = 10;
 function ProductsListPage() {
   const [currentPage, setCurrentPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState("");
-  const [sortBy, setSortBy] = useState<string | undefined>("id");
+  const [sortBy, setSortBy] = useState<string | undefined>();
   const [order, setOrder] = useState<OrderParamsType>("asc");
-  const { data, isLoading } = useProductsSearchQuery(
+  const { data, isLoading, refetch } = useProductsSearchQuery(
     sortBy
       ? {
           limit: LIMIT,
@@ -82,6 +82,7 @@ function ProductsListPage() {
               $variant="secondary"
               icon={<IconArrowsClockwise aria-hidden="true" />}
               aria-label="Обновить"
+              onClick={() => refetch()}
             />
             <Button icon={<IconPlusCircle aria-hidden="true" />}>
               Добавить
@@ -99,12 +100,14 @@ function ProductsListPage() {
               title: "Наименование",
               dataIndex: "title",
               key: "title",
-              render: (value, { images, brand }) => (
+              render: (value, { images, category }) => (
                 <Flex>
                   <Photo src={images?.[0] || ""} alt={value as string} />
                   <Flex $vertical>
                     <Typography $weight="bold">{value as string}</Typography>
-                    <Typography $variant="body">{brand as string}</Typography>
+                    <Typography $variant="body">
+                      {category as string}
+                    </Typography>
                   </Flex>
                 </Flex>
               ),

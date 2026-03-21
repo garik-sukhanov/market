@@ -1,8 +1,10 @@
 import styled from "styled-components";
 
+import { IconCaretLeft, IconCaretRight } from "@/shared/assets";
+
 import { Flex } from "../flex";
 
-const Button = styled.button<{ $active?: boolean }>`
+const Button = styled.button<{ $active?: boolean; $ghost?: boolean }>`
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -10,7 +12,8 @@ const Button = styled.button<{ $active?: boolean }>`
   font-weight: 500;
   cursor: pointer;
   transition: all 0.2s ease-in-out;
-  border: 2px solid transparent;
+  border: ${({ $ghost, theme }) =>
+    !$ghost ? `2px solid ${theme.colors.grey2}` : "none"};
   width: auto;
   height: 30px;
   min-width: 30px;
@@ -88,8 +91,9 @@ const Pagination = ({
       <Button
         disabled={current === 1}
         onClick={() => onChange(current - 1, pageSize)}
+        $ghost={true}
       >
-        {"<"}
+        <IconCaretLeft aria-hidden="true" />
       </Button>
 
       {showLeftEllipsis && <Ellipsis>...</Ellipsis>}
@@ -107,8 +111,9 @@ const Pagination = ({
       <Button
         disabled={current === totalPages}
         onClick={() => onChange(current + 1, pageSize)}
+        $ghost={true}
       >
-        {">"}
+        <IconCaretRight aria-hidden="true" />
       </Button>
     </Flex>
   );
