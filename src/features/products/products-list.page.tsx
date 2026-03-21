@@ -1,6 +1,12 @@
 import { type ChangeEvent, useState } from "react";
 
-import { Input, Pagination, Table } from "@/shared/components";
+import {
+  Flex,
+  Input,
+  Pagination,
+  Table,
+  Typography,
+} from "@/shared/components";
 import { useProductsSearchQuery } from "@/shared/hooks/products";
 
 const LIMIT = 10;
@@ -66,12 +72,19 @@ function ProductsListPage() {
           dataSource={products}
           rowKey={(record) => record.id}
         />
-        <Pagination
-          current={currentPage}
-          pageSize={LIMIT}
-          total={data?.total || 0}
-          onChange={(page) => setCurrentPage(page)}
-        />
+        <Flex $fullWidth $justify="space-between">
+          <Typography>
+            {`Показано ${currentPage * LIMIT - LIMIT + 1}-${currentPage * LIMIT} из ${
+              data?.total || 0
+            }`}
+          </Typography>
+          <Pagination
+            current={currentPage}
+            pageSize={LIMIT}
+            total={data?.total || 0}
+            onChange={(page) => setCurrentPage(page)}
+          />
+        </Flex>
       </div>
     </section>
   );
