@@ -21,6 +21,7 @@ function ProductsListPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [sortBy, setSortBy] = useState<string | undefined>();
   const [order, setOrder] = useState<OrderParamsType>("asc");
+  const [selectedProductIds, setSelectedProductIds] = useState<number[]>([]);
   const { data, isLoading, refetch } = useProductsSearchQuery(
     sortBy
       ? {
@@ -92,6 +93,30 @@ function ProductsListPage() {
         <ProductsTable
           products={products}
           loading={isLoading}
+          rowSelection={{
+            selected: selectedProductIds,
+            rowSelection: (key) => {
+              if (typeof key !== "number") return;
+              setSelectedProductIds((prev) =>
+                prev.includes(key)
+                  ? prev.filter((id) => id !== key)
+                  : [...prev, key],
+              );
+            },
+            rowSelectionAll: (checked, keys) => {
+              const pageIds = keys.filter((key) => typeof key === "number");
+              setSelectedProductIds((prev) => {
+                if (checked) {
+                  const next = new Set(prev);
+                  for (const id of pageIds) next.add(id);
+                  return Array.from(next);
+                }
+
+                const pageIdSet = new Set(pageIds);
+                return prev.filter((id) => !pageIdSet.has(id));
+              });
+            },
+          }}
           onClickHeader={onClickTableHeader}
           onDoubleClickHeader={onDoubleClickTableHeader}
           activeSortKey={sortBy}

@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import styled from "styled-components";
 
 import type { OrderParamsType } from "@/shared/types/requests";
@@ -51,6 +51,35 @@ const ThContent = styled.div`
   user-select: none;
 `;
 
+type RowSelectionKey = string | number;
+
+export type RowSelection = {
+  selected: RowSelectionKey[];
+  rowSelection: (key: RowSelectionKey) => void;
+  rowSelectionAll: (checked: boolean, keys: RowSelectionKey[]) => void;
+};
+
+const Checkbox = styled.input.attrs({ type: "checkbox" })`
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+  accent-color: ${({ theme }) => theme.colors.primary};
+`;
+
+const SelectionTh = styled(Th)`
+  width: 40px;
+  padding-left: ${({ theme }) => theme.spacing[8]};
+  padding-right: ${({ theme }) => theme.spacing[8]};
+  text-align: center;
+`;
+
+const SelectionTd = styled(Td)`
+  width: 40px;
+  padding-left: ${({ theme }) => theme.spacing[8]};
+  padding-right: ${({ theme }) => theme.spacing[8]};
+  text-align: center;
+`;
+
 interface Column<T> {
   title: string;
   key: string;
@@ -64,6 +93,7 @@ interface TableProps<T> {
   dataSource: T[] | undefined;
   loading?: boolean;
   rowKey: (record: T) => string | number;
+  rowSelection?: RowSelection;
   onClickHeader?: (key: string) => void;
   onDoubleClickHeader?: (key: string) => void;
   activeSortKey?: string;
@@ -131,8 +161,27 @@ const Table = <T extends Record<string, unknown>>({
   onDoubleClickHeader,
   activeSortKey,
   activeSortOrder = "asc",
+  rowSelection,
 }: TableProps<T>) => {
   const clickTimeoutRef = useRef<number | null>(null);
+  const headerCheckboxRef = useRef<HTMLInputElement | null>(null);
+
+  const allRowKeys = (dataSource || []).map(rowKey);
+  const selectedSet = new Set(rowSelection?.selected || []);
+  const selectedInPageCount = allRowKeys.reduce<number>(
+    (acc, key) => (selectedSet.has(key) ? acc + 1 : acc),
+    0,
+  );
+  const headerChecked =
+    allRowKeys.length > 0 && selectedInPageCount > 0
+      ? selectedInPageCount === allRowKeys.length
+      : false;
+  const headerIndeterminate = selectedInPageCount > 0 && !headerChecked;
+
+  useEffect(() => {
+    if (!headerCheckboxRef.current) return;
+    headerCheckboxRef.current.indeterminate = headerIndeterminate;
+  }, [headerIndeterminate]);
 
   const onHeaderClick = (key: string) => {
     if (!onClickHeader) return;
@@ -168,6 +217,11 @@ const Table = <T extends Record<string, unknown>>({
         <StyledTable>
           <thead>
             <tr>
+              {rowSelection ? (
+                <SelectionTh $clickable={false}>
+                  <Checkbox disabled={true} />
+                </SelectionTh>
+              ) : null}
               {columns.map((col) => (
                 <Th
                   key={col.key}
@@ -192,6 +246,11 @@ const Table = <T extends Record<string, unknown>>({
           <tbody>
             {Array.from({ length: 5 }).map((_, rowIndex) => (
               <Tr key={`skeleton-row-${rowIndex}`}>
+                {rowSelection ? (
+                  <SelectionTd key={`skeleton-cell-${rowIndex}-selection`}>
+                    <Skeleton $height="16px" $width="16px" />
+                  </SelectionTd>
+                ) : null}
                 {columns.map((col) => (
                   <Td key={`skeleton-cell-${rowIndex}-${col.key}`}>
                     <Skeleton $height="20px" $width="80%" />
@@ -210,6 +269,17 @@ const Table = <T extends Record<string, unknown>>({
       <StyledTable>
         <thead>
           <tr>
+            {rowSelection ? (
+              <SelectionTh $clickable={false}>
+                <Checkbox
+                  ref={headerCheckboxRef}
+                  checked={headerChecked}
+                  onChange={(e) =>
+                    rowSelection.rowSelectionAll(e.target.checked, allRowKeys)
+                  }
+                />
+              </SelectionTh>
+            ) : null}
             {columns.map((col) => (
               <Th
                 key={col.key}
@@ -234,6 +304,14 @@ const Table = <T extends Record<string, unknown>>({
         <tbody>
           {dataSource?.map((record) => (
             <Tr key={rowKey(record)}>
+              {rowSelection ? (
+                <SelectionTd>
+                  <Checkbox
+                    checked={selectedSet.has(rowKey(record))}
+                    onChange={() => rowSelection.rowSelection(rowKey(record))}
+                  />
+                </SelectionTd>
+              ) : null}
               {columns.map((col) => (
                 <Td key={col.key}>
                   {col.render

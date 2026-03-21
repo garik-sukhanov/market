@@ -1,6 +1,7 @@
 import styled from "styled-components";
 
 import { Flex, Table, Typography } from "@/shared/components";
+import type { RowSelection } from "@/shared/components/ui/table";
 import type { ProductType } from "@/shared/types";
 import type { OrderParamsType } from "@/shared/types/requests";
 
@@ -77,6 +78,7 @@ const Photo = styled.img`
 export type ProductsTableProps = {
   products: ProductType[] | undefined;
   loading?: boolean;
+  rowSelection?: RowSelection;
   onClickHeader?: (key: string) => void;
   onDoubleClickHeader?: (key: string) => void;
   activeSortKey?: string;
@@ -86,6 +88,7 @@ export type ProductsTableProps = {
 export const ProductsTable = ({
   products,
   loading,
+  rowSelection,
   onClickHeader,
   onDoubleClickHeader,
   activeSortKey,
@@ -94,6 +97,7 @@ export const ProductsTable = ({
   return (
     <Table<ProductType>
       loading={loading}
+      rowSelection={rowSelection}
       onClickHeader={onClickHeader}
       onDoubleClickHeader={onDoubleClickHeader}
       activeSortKey={activeSortKey}
