@@ -1,7 +1,10 @@
 :root {
   --text: #08060d;
   --bg: #f9f9f9;
-  --main-font: Cairo, Roboto, sans-serif;
+  --font-sans: Cairo, "Open Sans", Roboto, sans-serif;
+  --font-mono: "Roboto Mono", ui-monospace, SFMono-Regular, Menlo, Monaco,
+    Consolas, "Liberation Mono", "Courier New", monospace;
+  --main-font: var(--font-sans);
 
   font: 18px/145% var(--main-font);
   letter-spacing: 0.18px;

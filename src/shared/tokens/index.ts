@@ -14,6 +14,12 @@ const shadows = {
   primary: "4px 4px 0 0 #221b19",
 };
 
+const fonts = {
+  sans: 'Cairo, "Open Sans", Roboto, sans-serif',
+  mono:
+    '"Roboto Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace',
+};
+
 const spacing = {
   1: "1px",
   2: "2px",
@@ -39,6 +45,7 @@ const spacing = {
 const commonTokens = {
   spacing,
   shadows,
+  fonts,
 };
 
 export const lightTokens = {
@@ -59,4 +66,5 @@ export type ThemeTokens = typeof lightTokens;
 export const TOKENS = {
   spacing,
   shadows,
+  fonts,
 };
