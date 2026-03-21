@@ -1,4 +1,7 @@
+import { useRef } from "react";
 import styled from "styled-components";
+
+import type { OrderParamsType } from "@/shared/types/requests";
 
 import { Skeleton } from "../skeleton";
 
@@ -25,12 +28,11 @@ const Th = styled.th<{ $active?: boolean; $clickable?: boolean }>`
   cursor: ${({ $clickable }) => ($clickable ? "pointer" : "default")};
 `;
 
-const Td = styled.td<{ $active?: boolean }>`
+const Td = styled.td`
   padding: ${({ theme }) => theme.spacing[12]};
   border-bottom: 2px solid ${({ theme }) => theme.colors.grey2};
   color: ${({ theme }) => theme.colors.textBase};
-  background-color: ${({ theme, $active }) =>
-    $active ? `${theme.colors.primary}10` : "transparent"};
+  background-color: transparent;
 `;
 
 const Tr = styled.tr`
@@ -63,13 +65,14 @@ interface TableProps<T> {
   loading?: boolean;
   rowKey: (record: T) => string | number;
   onClickHeader?: (key: string) => void;
+  onDoubleClickHeader?: (key: string) => void;
   activeSortKey?: string;
-  activeSortOrder?: string;
+  activeSortOrder?: OrderParamsType;
 }
 
 const SortIconWrapper = styled.span<{
   $active: boolean;
-  $order: string;
+  $order: OrderParamsType;
 }>`
   display: inline-flex;
   align-items: center;
@@ -86,7 +89,13 @@ const SortIconWrapper = styled.span<{
       : "var(--sort-color-inactive)"};
 `;
 
-const SortIcon = ({ active, order }: { active: boolean; order: string }) => (
+const SortIcon = ({
+  active,
+  order,
+}: {
+  active: boolean;
+  order: OrderParamsType;
+}) => (
   <SortIconWrapper $active={active} $order={order}>
     <svg
       width="14"
@@ -119,9 +128,40 @@ const Table = <T extends Record<string, unknown>>({
   loading,
   rowKey,
   onClickHeader,
+  onDoubleClickHeader,
   activeSortKey,
   activeSortOrder = "asc",
 }: TableProps<T>) => {
+  const clickTimeoutRef = useRef<number | null>(null);
+
+  const onHeaderClick = (key: string) => {
+    if (!onClickHeader) return;
+
+    if (onDoubleClickHeader) {
+      if (clickTimeoutRef.current !== null) {
+        window.clearTimeout(clickTimeoutRef.current);
+      }
+      clickTimeoutRef.current = window.setTimeout(() => {
+        onClickHeader(key);
+        clickTimeoutRef.current = null;
+      }, 200);
+      return;
+    }
+
+    onClickHeader(key);
+  };
+
+  const onHeaderDoubleClick = (key: string) => {
+    if (!onDoubleClickHeader) return;
+
+    if (clickTimeoutRef.current !== null) {
+      window.clearTimeout(clickTimeoutRef.current);
+      clickTimeoutRef.current = null;
+    }
+
+    onDoubleClickHeader(key);
+  };
+
   if (loading) {
     return (
       <TableWrapper>
@@ -132,8 +172,9 @@ const Table = <T extends Record<string, unknown>>({
                 <Th
                   key={col.key}
                   $active={activeSortKey === col.key}
-                  $clickable={Boolean(onClickHeader)}
-                  onClick={() => onClickHeader?.(col.key)}
+                  $clickable={Boolean(onClickHeader || onDoubleClickHeader)}
+                  onClick={() => onHeaderClick(col.key)}
+                  onDoubleClick={() => onHeaderDoubleClick(col.key)}
                 >
                   <ThContent>
                     {activeSortKey === col.key ? (
@@ -152,10 +193,7 @@ const Table = <T extends Record<string, unknown>>({
             {Array.from({ length: 5 }).map((_, rowIndex) => (
               <Tr key={`skeleton-row-${rowIndex}`}>
                 {columns.map((col) => (
-                  <Td
-                    key={`skeleton-cell-${rowIndex}-${col.key}`}
-                    $active={activeSortKey === col.key}
-                  >
+                  <Td key={`skeleton-cell-${rowIndex}-${col.key}`}>
                     <Skeleton $height="20px" $width="80%" />
                   </Td>
                 ))}
@@ -176,8 +214,9 @@ const Table = <T extends Record<string, unknown>>({
               <Th
                 key={col.key}
                 $active={activeSortKey === col.key}
-                $clickable={Boolean(onClickHeader)}
-                onClick={() => onClickHeader?.(col.key)}
+                $clickable={Boolean(onClickHeader || onDoubleClickHeader)}
+                onClick={() => onHeaderClick(col.key)}
+                onDoubleClick={() => onHeaderDoubleClick(col.key)}
               >
                 <ThContent>
                   {activeSortKey === col.key ? (
@@ -196,7 +235,7 @@ const Table = <T extends Record<string, unknown>>({
           {dataSource?.map((record) => (
             <Tr key={rowKey(record)}>
               {columns.map((col) => (
-                <Td key={col.key} $active={activeSortKey === col.key}>
+                <Td key={col.key}>
                   {col.render
                     ? col.render(
                         col.dataIndex ? record[col.dataIndex] : undefined,

@@ -19,15 +19,23 @@ const LIMIT = 10;
 function ProductsListPage() {
   const [currentPage, setCurrentPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState("");
-  const [sortBy, setSortBy] = useState("id");
+  const [sortBy, setSortBy] = useState<string | undefined>("id");
   const [order, setOrder] = useState<OrderParamsType>("asc");
-  const { data, isLoading } = useProductsSearchQuery({
-    limit: LIMIT,
-    skip: (currentPage - 1) * LIMIT,
-    q: searchQuery,
-    sortBy,
-    order,
-  });
+  const { data, isLoading } = useProductsSearchQuery(
+    sortBy
+      ? {
+          limit: LIMIT,
+          skip: (currentPage - 1) * LIMIT,
+          q: searchQuery,
+          sortBy,
+          order,
+        }
+      : {
+          limit: LIMIT,
+          skip: (currentPage - 1) * LIMIT,
+          q: searchQuery,
+        },
+  );
 
   const onChangeSearchQuery = (e: ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(e.target.value);
@@ -42,6 +50,13 @@ function ProductsListPage() {
     }
 
     setSortBy(key);
+    setOrder("asc");
+  };
+
+  const onDoubleClickTableHeader = (key: string) => {
+    if (sortBy !== key) return;
+    setCurrentPage(1);
+    setSortBy(undefined);
     setOrder("asc");
   };
 
@@ -76,6 +91,7 @@ function ProductsListPage() {
         <Table
           loading={isLoading}
           onClickHeader={onClickTableHeader}
+          onDoubleClickHeader={onDoubleClickTableHeader}
           activeSortKey={sortBy}
           activeSortOrder={order}
           columns={[
