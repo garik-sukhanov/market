@@ -82,7 +82,7 @@ function ProductsListPage() {
           dataSource={products}
           rowKey={(record) => record.id}
         />
-        <Flex $fullWidth $justify="space-between">
+        <Flex $fullWidth $justify="space-between" style={{ padding: "52px 0" }}>
           <Typography>
             {`Показано ${currentPage * LIMIT - LIMIT + 1}-${currentPage * LIMIT} из ${
               data?.total || 0
