@@ -1,23 +1,36 @@
-import { useState } from "react";
+import { type ChangeEvent, useState } from "react";
 
 import { Input, Pagination, Table } from "@/shared/components";
-import { useProductsQuery } from "@/shared/hooks/products";
+import { useProductsSearchQuery } from "@/shared/hooks/products";
 
 const LIMIT = 10;
 
 function ProductsListPage() {
   const [currentPage, setCurrentPage] = useState(1);
-  const { data, isLoading } = useProductsQuery({
+  const [searchQuery, setSearchQuery] = useState("");
+  const { data, isLoading } = useProductsSearchQuery({
     limit: LIMIT,
     skip: (currentPage - 1) * LIMIT,
+    q: searchQuery,
   });
+
+  const onChangeSearchQuery = (e: ChangeEvent<HTMLInputElement>) => {
+    setSearchQuery(e.target.value);
+    setCurrentPage(1);
+  };
+
   const { products } = data || {};
 
   return (
     <section id="center">
       <h1>Товары</h1>
       <form id="search-form">
-        <Input type="text" placeholder="Введите поисковый запрос" />
+        <Input
+          type="text"
+          placeholder="Введите поисковый запрос"
+          value={searchQuery}
+          onChange={onChangeSearchQuery}
+        />
       </form>
       <div>
         <h2>Все позиции</h2>
