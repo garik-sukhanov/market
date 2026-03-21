@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-import { Flex, Table, Typography } from "@/shared/components";
+import { Flex, Table, Typography } from "@/shared/components/ui";
 import type { RowSelection } from "@/shared/components/ui/table";
 import { lightTokens } from "@/shared/tokens";
 import type { ProductType } from "@/shared/types";

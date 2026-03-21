@@ -10,11 +10,14 @@ export const eslintBoundariesConfig = {
         alwaysTryTypes: true,
       },
     },
-
     "boundaries/elements": [
       {
         type: "app",
         pattern: "./src/app",
+      },
+      {
+        type: "pages",
+        pattern: "./src/pages/*",
       },
       {
         type: "features",
@@ -34,12 +37,18 @@ export const eslintBoundariesConfig = {
         rules: [
           {
             from: "shared",
-            disallow: ["app", "features"],
+            disallow: ["app", "pages", "features"],
             message:
               "Модуль нижележащего слоя (${file.type}) не может импортировать модуль вышележащего слоя (${dependency.type})",
           },
           {
             from: "features",
+            disallow: ["app", "pages"],
+            message:
+              "Модуль нижележащего слоя (${file.type}) не может импортировать модуль вышележащего слоя (${dependency.type})",
+          },
+          {
+            from: "pages",
             disallow: ["app"],
             message:
               "Модуль нижележащего слоя (${file.type}) не может импортировать модуль вышележащего слоя (${dependency.type})",
@@ -53,7 +62,6 @@ export const eslintBoundariesConfig = {
         default: "disallow",
         message:
           "Модуль (${file.type}) должен импортироваться через public API. Прямой импорт из ${dependency.source} запрещен",
-
         rules: [
           {
             target: ["shared", "app"],
@@ -62,6 +70,10 @@ export const eslintBoundariesConfig = {
           {
             target: ["features"],
             allow: ["index.(ts|tsx)", "*.page.tsx"],
+          },
+          {
+            target: ["pages"],
+            allow: ["**/*.page.tsx", "index.(ts|tsx)"],
           },
         ],
       },

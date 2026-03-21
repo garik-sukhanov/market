@@ -1,11 +1,9 @@
 import { createBrowserRouter } from "react-router";
 
-import {
-  AppLayoutRoute,
-  AuthLayout,
-  RouteErrorBoundary,
-} from "@/shared/components";
-import { RouteFallback } from "@/shared/components/route-fallback";
+import { AppLayoutRoute } from "@/app/layouts/app-layout-route";
+import { AuthLayout } from "@/app/layouts/auth-layout";
+import { RouteErrorBoundary } from "@/app/ui/route-error-boundary";
+import { RouteFallback } from "@/app/ui/route-fallback";
 import { ROUTES } from "@/shared/model/routes";
 
 import { protectedLoader } from "./protected-loader";
@@ -19,7 +17,7 @@ export const router = createBrowserRouter([
     children: [
       {
         path: ROUTES.LOGIN,
-        lazy: async () => import("@/features/auth/login.page"),
+        lazy: async () => import("@/pages/auth/login.page"),
       },
     ],
   },
@@ -35,7 +33,7 @@ export const router = createBrowserRouter([
         children: [
           {
             index: true,
-            lazy: async () => import("@/features/products/products-list.page"),
+            lazy: async () => import("@/pages/products/products-list.page"),
           },
         ],
       },

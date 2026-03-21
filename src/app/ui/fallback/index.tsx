@@ -1,7 +1,7 @@
 import { type FallbackProps } from "react-error-boundary";
 import styled from "styled-components";
 
-import { Button, Card, CardTitle, Flex, Tag, Typography } from "../ui";
+import { Button, Card, CardTitle, Flex, Tag, Typography } from "@/shared/components/ui";
 
 function getErrorDetails(error: unknown) {
   if (error instanceof Error) {

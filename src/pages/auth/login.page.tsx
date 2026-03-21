@@ -1,4 +1,4 @@
-import { LoginForm, type LoginFormValues } from "@/shared/components/forms";
+import { LoginForm, type LoginFormValues } from "@/features/auth";
 import {
   Card,
   CardTitle,

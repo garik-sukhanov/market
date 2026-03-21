@@ -1,16 +1,10 @@
 import { type ChangeEvent, useState } from "react";
 import styled from "styled-components";
 
+import { LogoutButton } from "@/features/auth";
+import { ProductsTable, SearchInput } from "@/features/products";
 import { IconArrowsClockwise, IconPlusCircle } from "@/shared/assets";
-import {
-  Button,
-  Flex,
-  Pagination,
-  ProductsTable,
-  SearchInput,
-  Typography,
-} from "@/shared/components";
-import { LogoutButton } from "@/shared/components";
+import { Button, Flex, Pagination, Typography } from "@/shared/components/ui";
 import { useProductsSearchQuery } from "@/shared/hooks/products";
 import type { OrderParamsType } from "@/shared/types/requests";
 

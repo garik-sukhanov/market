@@ -1,9 +1,8 @@
 import { isRouteErrorResponse, useNavigate, useRouteError } from "react-router";
 import styled from "styled-components";
 
+import { Button, Card, CardTitle, Flex, Tag, Typography } from "@/shared/components/ui";
 import { ROUTES } from "@/shared/model/routes";
-
-import { Button, Card, CardTitle, Flex, Tag, Typography } from "../ui";
 
 function getRouteErrorDetails(error: unknown) {
   if (error instanceof Error) {
