@@ -16,6 +16,68 @@ import type { OrderParamsType } from "@/shared/types/requests";
 
 const LIMIT = 10;
 
+type RatingValue = number | { rate: number; count?: number } | null | undefined;
+
+const getNumericRating = (value: RatingValue) => {
+  if (typeof value === "number") return Number.isFinite(value) ? value : null;
+  if (value && typeof value === "object" && "rate" in value) {
+    const rate = value.rate;
+    return Number.isFinite(rate) ? rate : null;
+  }
+  return null;
+};
+
+const formatRating = (value: number) => {
+  const formatted = value.toFixed(1);
+  return formatted.endsWith(".0") ? formatted.slice(0, -2) : formatted;
+};
+
+const RatingText = styled.span<{ $danger: boolean }>`
+  font-weight: 600;
+  color: ${({ theme, $danger }) =>
+    $danger ? "#cf1322" : theme.colors.textBase};
+`;
+
+const Rating = ({ value, max }: { value: RatingValue; max: number }) => {
+  const numeric = getNumericRating(value);
+  if (numeric === null) return <span>—</span>;
+
+  return (
+    <RatingText $danger={numeric < 3}>
+      {formatRating(numeric)}/{max}
+    </RatingText>
+  );
+};
+
+type PriceValue = number | string | null | undefined;
+
+const PriceText = styled.span`
+  font-family: ${({ theme }) => theme.fonts.mono};
+  font-variant-numeric: tabular-nums;
+`;
+
+const PriceMain = styled.span`
+  color: ${({ theme }) => theme.colors.textBase};
+`;
+
+const PriceFraction = styled.span`
+  color: ${({ theme }) => theme.colors.grey5};
+`;
+
+const Price = ({ value }: { value: PriceValue }) => {
+  const numeric = typeof value === "number" ? value : Number(value);
+  if (!Number.isFinite(numeric)) return <span>—</span>;
+
+  const [main, frac] = numeric.toFixed(2).split(".");
+
+  return (
+    <PriceText>
+      <PriceMain>{main}</PriceMain>
+      <PriceFraction>.{frac}</PriceFraction>
+    </PriceText>
+  );
+};
+
 function ProductsListPage() {
   const [currentPage, setCurrentPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState("");
@@ -126,11 +188,15 @@ function ProductsListPage() {
               title: "Оценка",
               dataIndex: "rating",
               key: "rating",
+              render: (value) => (
+                <Rating value={value as RatingValue} max={5} />
+              ),
             },
             {
               title: "Цена",
               dataIndex: "price",
               key: "price",
+              render: (value) => <Price value={value as PriceValue} />,
             },
           ]}
           dataSource={products}
