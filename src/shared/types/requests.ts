@@ -1,6 +1,6 @@
 import type { ProductType } from ".";
 
-export type SelectParamsType = "title" | "price";
+export type SelectParamsType = string;
 export type OrderParamsType = "asc" | "desc";
 export type ReqListQueryParams = {
   limit?: number;

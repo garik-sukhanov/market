@@ -12,21 +12,37 @@ import {
 } from "@/shared/components";
 import { LogoutButton } from "@/shared/components";
 import { useProductsSearchQuery } from "@/shared/hooks/products";
+import type { OrderParamsType } from "@/shared/types/requests";
 
 const LIMIT = 10;
 
 function ProductsListPage() {
   const [currentPage, setCurrentPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState("");
+  const [sortBy, setSortBy] = useState("id");
+  const [order, setOrder] = useState<OrderParamsType>("asc");
   const { data, isLoading } = useProductsSearchQuery({
     limit: LIMIT,
     skip: (currentPage - 1) * LIMIT,
     q: searchQuery,
+    sortBy,
+    order,
   });
 
   const onChangeSearchQuery = (e: ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(e.target.value);
     setCurrentPage(1);
+  };
+
+  const onClickTableHeader = (key: string) => {
+    setCurrentPage(1);
+    if (sortBy === key) {
+      setOrder((prevOrder) => (prevOrder === "asc" ? "desc" : "asc"));
+      return;
+    }
+
+    setSortBy(key);
+    setOrder("asc");
   };
 
   const { products } = data || {};
@@ -59,6 +75,9 @@ function ProductsListPage() {
         </Flex>
         <Table
           loading={isLoading}
+          onClickHeader={onClickTableHeader}
+          activeSortKey={sortBy}
+          activeSortOrder={order}
           columns={[
             {
               title: "Наименование",
