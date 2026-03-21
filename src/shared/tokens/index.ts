@@ -2,9 +2,10 @@ export const palette = {
   white: "#FFFFFF",
   black: "#000000",
   grey1: "#EBEBEB",
-  grey2: "#9C9C9C",
+  grey2: "#E2E2E2",
   grey3: "#B2B3B9",
-  grey4: "#6C6C6C",
+  grey4: "#9C9C9C",
+  grey5: "#6C6C6C",
   blue: "#242EDB",
   lightBlue: "#367AFF",
 };
@@ -34,6 +35,7 @@ const commonTokens = {
 export const lightTokens = {
   ...commonTokens,
   colors: {
+    ...palette,
     bgBase: "#F3F3F3",
     bgSecondary: "#F9F9F9",
     textBase: palette.black,

@@ -1,13 +1,10 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
-import { Skeleton } from '../skeleton';
-
+import { Skeleton } from "../skeleton";
 
 const TableWrapper = styled.div`
   width: 100%;
   overflow-x: auto;
-  border: 2px solid ${({ theme }) => theme.colors.textBase};
-  border-radius: ${({ theme }) => theme.spacing[3]};
   background-color: ${({ theme }) => theme.colors.bgContainer};
 `;
 
@@ -27,7 +24,7 @@ const Th = styled.th`
 
 const Td = styled.td`
   padding: ${({ theme }) => theme.spacing[4]};
-  border-bottom: 1px solid ${({ theme }) => theme.colors.bgContainer};
+  border-bottom: 1px solid ${({ theme }) => theme.colors.grey2};
   color: ${({ theme }) => theme.colors.textBase};
 `;
 
@@ -46,7 +43,6 @@ interface Column<T> {
   dataIndex?: keyof T;
   render?: (value: T[keyof T] | undefined, record: T) => React.ReactNode;
 }
-
 
 interface TableProps<T> {
   columns: Column<T>[];
@@ -88,7 +84,6 @@ const Table = <T extends Record<string, unknown>>({
     );
   }
 
-
   return (
     <TableWrapper>
       <StyledTable>
@@ -105,11 +100,13 @@ const Table = <T extends Record<string, unknown>>({
               {columns.map((col) => (
                 <Td key={col.key}>
                   {col.render
-                    ? col.render(col.dataIndex ? record[col.dataIndex] : undefined, record)
+                    ? col.render(
+                        col.dataIndex ? record[col.dataIndex] : undefined,
+                        record,
+                      )
                     : col.dataIndex
-                    ? (record[col.dataIndex] as React.ReactNode)
-                    : null}
-
+                      ? (record[col.dataIndex] as React.ReactNode)
+                      : null}
                 </Td>
               ))}
             </Tr>
