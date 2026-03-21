@@ -18,9 +18,9 @@ function getErrorMessage(error: unknown) {
 
 export function Fallback({ error, resetErrorBoundary }: FallbackProps) {
   return (
-    <div role="alert">
+    <div role="alert" style={{ textWrap: "wrap", wordBreak: "break-word" }}>
       <p>Something went wrong:</p>
-      <pre style={{ color: "red" }}>{getErrorMessage(error)}</pre>
+      <p style={{ color: "red" }}>{getErrorMessage(error)}</p>
       <button onClick={resetErrorBoundary}>Retry</button>
     </div>
   );

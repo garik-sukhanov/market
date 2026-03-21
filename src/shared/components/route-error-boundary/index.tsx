@@ -17,7 +17,7 @@ export function RouteErrorBoundary() {
 
   if (isRouteErrorResponse(error)) {
     return (
-      <div role="alert">
+      <div role="alert" style={{ textWrap: "wrap", wordBreak: "break-word" }}>
         <p>Something went wrong:</p>
         <pre style={{ color: "red" }}>
           {error.status} {error.statusText}
@@ -27,9 +27,9 @@ export function RouteErrorBoundary() {
   }
 
   return (
-    <div role="alert">
+    <div role="alert" style={{ textWrap: "wrap", wordBreak: "break-word" }}>
       <p>Something went wrong:</p>
-      <pre style={{ color: "red" }}>{getRouteErrorMessage(error)}</pre>
+      <p style={{ color: "red" }}>{getRouteErrorMessage(error)}</p>
     </div>
   );
 }

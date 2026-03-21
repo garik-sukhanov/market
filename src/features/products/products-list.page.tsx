@@ -1,6 +1,7 @@
 import { type ChangeEvent, useState } from "react";
 import styled from "styled-components";
 
+import { IconArrowsClockwise, IconPlusCircle } from "@/shared/assets";
 import {
   Button,
   Flex,
@@ -44,7 +45,19 @@ function ProductsListPage() {
         <Button>Выйти</Button>
       </StyledHederWrapper>
       <StyledTableWrapper>
-        <h2>Все позиции</h2>
+        <Flex>
+          <Typography $variant="h2">Все позиции</Typography>
+          <Flex>
+            <Button
+              $variant="secondary"
+              icon={<IconArrowsClockwise aria-hidden="true" />}
+              aria-label="Обновить"
+            />
+            <Button icon={<IconPlusCircle aria-hidden="true" />}>
+              Добавить
+            </Button>
+          </Flex>
+        </Flex>
         <Table
           loading={isLoading}
           columns={[

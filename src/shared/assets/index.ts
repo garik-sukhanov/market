@@ -1,5 +1,5 @@
-import IconArrowsClockwise from "./arrows-clockwise.svg";
-import IconPlusCircle from "./plus-circle.svg";
-import IconSearch from "./search.svg";
+import IconArrowsClockwise from "./arrows-clockwise.svg?react";
+import IconPlusCircle from "./plus-circle.svg?react";
+import IconSearch from "./search.svg?react";
 
 export { IconArrowsClockwise, IconPlusCircle, IconSearch };

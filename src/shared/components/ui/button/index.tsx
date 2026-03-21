@@ -1,4 +1,4 @@
-import type { ComponentProps } from "react";
+import { type ComponentProps, forwardRef, type ReactNode } from "react";
 import styled, { css } from "styled-components";
 
 export type ButtonVariant =
@@ -13,12 +13,17 @@ export interface ButtonProps extends ComponentProps<"button"> {
   $variant?: ButtonVariant;
   $size?: ButtonSize;
   $fullWidth?: boolean;
+  icon?: ReactNode;
+  iconPosition?: "left" | "right";
 }
 
-const Button = styled.button<ButtonProps>`
+type StyledButtonProps = Omit<ButtonProps, "icon" | "iconPosition">;
+
+const StyledButton = styled.button<StyledButtonProps>`
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  gap: ${({ theme }) => theme.spacing[16]};
   border-radius: ${({ theme }) => theme.spacing[2]};
   font-weight: 500;
   cursor: pointer;
@@ -66,8 +71,10 @@ const Button = styled.button<ButtonProps>`
       case "secondary":
         return css`
           background-color: transparent;
-          border-color: ${theme.colors.primary};
+          border-color: ${theme.colors.grey2};
           color: ${theme.colors.primary};
+          padding: 10px;
+          border-radius: ${({ theme }) => theme.spacing[6]};
           &:hover:not(:disabled) {
             background-color: ${theme.colors.primary}10;
           }
@@ -105,5 +112,33 @@ const Button = styled.button<ButtonProps>`
     }
   }}
 `;
+
+const IconContainer = styled.span`
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+`;
+
+const Button = forwardRef<HTMLButtonElement, ButtonProps>(
+  ({ icon, iconPosition = "left", children, ...props }, ref) => {
+    const hasChildren =
+      children !== undefined && children !== null && children !== false;
+
+    return (
+      <StyledButton ref={ref} {...props}>
+        {icon && iconPosition === "left" && (
+          <IconContainer>{icon}</IconContainer>
+        )}
+        {hasChildren ? children : null}
+        {icon && iconPosition === "right" && (
+          <IconContainer>{icon}</IconContainer>
+        )}
+      </StyledButton>
+    );
+  },
+);
+
+Button.displayName = "Button";
 
 export { Button };
