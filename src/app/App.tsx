@@ -8,11 +8,11 @@ import { router } from "./router";
 
 function App() {
   return (
-    <ErrorBoundary FallbackComponent={Fallback}>
-      <Providers>
+    <Providers>
+      <ErrorBoundary FallbackComponent={Fallback}>
         <RouterProvider router={router} />
-      </Providers>
-    </ErrorBoundary>
+      </ErrorBoundary>
+    </Providers>
   );
 }
 
