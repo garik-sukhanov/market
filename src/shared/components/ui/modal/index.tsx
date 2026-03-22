@@ -32,12 +32,16 @@ const ModalContainer = styled.div`
   box-shadow: ${({ theme }) => theme.shadows.primary};
   display: flex;
   flex-direction: column;
-  gap: ${({ theme }) => theme.spacing[4]};
+  gap: ${({ theme }) => theme.spacing[16]};
   width: min(527px, 100%);
   max-width: none;
   border: none;
   border-radius: 40px;
   background-color: ${({ theme }) => theme.colors.white};
+`;
+
+const Content = styled.div`
+  flex: 1;
   max-height: 90vh;
   overflow-y: auto;
   overflow-x: hidden;
@@ -71,7 +75,7 @@ const Modal = ({ open, onCancel, title, children, footer }: ModalProps) => {
             ✕
           </Button>
         </ModalHeader>
-        <div>{children}</div>
+        <Content>{children}</Content>
         {footer !== null && (
           <Flex $justify="flex-end" $gap={2}>
             {footer || (
