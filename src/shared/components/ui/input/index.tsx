@@ -71,7 +71,11 @@ const StyledInput = styled.input<InternalInputProps>`
 
   &:focus {
     border-color: ${({ theme, $error, $variant = "default" }) =>
-      $error ? "#ff4d4f" : $variant === "auth" ? "#ededed" : theme.colors.primary};
+      $error
+        ? "#ff4d4f"
+        : $variant === "auth"
+          ? "#ededed"
+          : theme.colors.primary};
     box-shadow: ${({ theme, $variant = "default" }) =>
       $variant === "auth" ? "none" : `0 0 0 2px ${theme.colors.primary}33`};
   }
@@ -244,10 +248,9 @@ const ErrorText = styled.span`
 `;
 
 const TextArea = styled.textarea<StyledInputProps>`
-  padding: ${({ theme }) => `${theme.spacing[2]} ${theme.spacing[4]}`};
-  border-radius: ${({ theme }) => theme.spacing[2]};
-  border: 2px solid
-    ${({ theme, $error }) => ($error ? "#ff4d4f" : theme.colors.bgContainer)};
+  padding: ${({ theme }) => `${theme.spacing[2]} ${theme.spacing[8]}`};
+  border-radius: ${({ theme }) => theme.spacing[16]};
+  border: none;
   background-color: ${({ theme }) => theme.colors.bgBase};
   color: ${({ theme }) => theme.colors.textBase};
   width: ${({ $fullWidth }) => ($fullWidth ? "100%" : "auto")};

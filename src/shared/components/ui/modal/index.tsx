@@ -33,7 +33,7 @@ const ModalContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: ${({ theme }) => theme.spacing[16]};
-  width: min(527px, 100%);
+  width: max(527px, 60%);
   max-width: none;
   border: none;
   border-radius: 40px;
@@ -42,7 +42,7 @@ const ModalContainer = styled.div`
 
 const Content = styled.div`
   flex: 1;
-  max-height: 90vh;
+  max-height: 70vh;
   overflow-y: auto;
   overflow-x: hidden;
 `;

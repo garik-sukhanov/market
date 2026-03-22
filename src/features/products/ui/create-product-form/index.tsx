@@ -13,6 +13,7 @@ import {
   TextArea,
 } from "@/shared/components/ui";
 import { useAddProductMutation } from "@/shared/hooks/products";
+import { lightTokens } from "@/shared/tokens";
 import type { CreateProductDto } from "@/shared/types/requests";
 
 const createProductSchema = z.object({
@@ -307,7 +308,11 @@ export const CreateProductForm = ({
         )}
       />
 
-      <Flex $justify="flex-end" $gap={2}>
+      <Flex
+        $justify="flex-end"
+        $gap={16}
+        style={{ marginTop: lightTokens.spacing[16] }}
+      >
         <Button $variant="secondary" type="button" onClick={cancel}>
           Отмена
         </Button>
