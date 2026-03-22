@@ -43,27 +43,27 @@ const Container = styled.div`
 const Toast = styled.div<{ $type: NotificationType }>`
   min-width: 250px;
   padding: 12px 20px;
-  border-radius: 8px;
-  background-color: ${({ theme }) => theme.colors.bgContainer};
+  border-radius: ${({ theme }) => theme.spacing[16]};
+  background-color: ${({ $type, theme }) => {
+    switch ($type) {
+      case "success":
+        return "#a0ef79";
+      case "error":
+        return "#fb7174";
+      case "warning":
+        return "#f3c870";
+      default:
+        return theme.colors.primary;
+    }
+  }};
   color: ${({ theme }) => theme.colors.textBase};
-  box-shadow: ${({ theme }) => theme.shadows.primary};
-  border: 2px solid
-    ${({ $type, theme }) => {
-      switch ($type) {
-        case "success":
-          return "#52c41a";
-        case "error":
-          return "#ff4d4f";
-        case "warning":
-          return "#faad14";
-        default:
-          return theme.colors.primary;
-      }
-    }};
+  border: "none";
   animation: ${slideIn} 0.3s ease-out;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  font: ${({ theme }) => theme.fonts.mono};
+  font-size: 14px;
 `;
 
 export const NotificationProvider = ({
