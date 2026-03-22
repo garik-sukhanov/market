@@ -179,7 +179,11 @@ const Table = <T extends Record<string, unknown>>({
             <tr>
               {rowSelection ? (
                 <SelectionTh $clickable={false}>
-                  <Checkbox variant={checkboxVariant} disabled={true} />
+                  <Checkbox
+                    variant={checkboxVariant}
+                    checked={false}
+                    disabled={true}
+                  />
                 </SelectionTh>
               ) : null}
               {columns.map((col) =>

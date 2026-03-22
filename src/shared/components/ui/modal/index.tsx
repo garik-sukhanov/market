@@ -28,7 +28,7 @@ const Overlay = styled.div`
 `;
 
 const ModalContainer = styled.div`
-  padding: ${({ theme }) => theme.spacing[6]};
+  padding: ${({ theme }) => theme.spacing[48]};
   box-shadow: ${({ theme }) => theme.shadows.primary};
   display: flex;
   flex-direction: column;
@@ -38,6 +38,9 @@ const ModalContainer = styled.div`
   border: none;
   border-radius: 40px;
   background-color: ${({ theme }) => theme.colors.white};
+  max-height: 90vh;
+  overflow-y: auto;
+  overflow-x: hidden;
 `;
 
 const ModalHeader = styled(Flex)`
