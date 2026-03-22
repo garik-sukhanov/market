@@ -2,13 +2,14 @@ import { type ChangeEvent, useState } from "react";
 import styled from "styled-components";
 
 import { LogoutButton } from "@/features/auth";
-import { ProductsTable } from "@/features/products";
+import { CreateProductModal, ProductsTable } from "@/features/products";
 import { IconArrowsClockwise, IconPlusCircle } from "@/shared/assets";
 import {
   Button,
   Flex,
   Pagination,
   SearchInput,
+  Trigger,
   Typography,
 } from "@/shared/components/ui";
 import { useDebounce } from "@/shared/hooks";
@@ -109,9 +110,11 @@ function ProductsListPage() {
               aria-label="Обновить"
               onClick={() => refetch()}
             />
-            <Button icon={<IconPlusCircle aria-hidden="true" />}>
-              Добавить
-            </Button>
+            <Trigger modal={<CreateProductModal onCreated={() => refetch()} />}>
+              <Button icon={<IconPlusCircle aria-hidden="true" />}>
+                Добавить
+              </Button>
+            </Trigger>
           </Flex>
         </Flex>
         <ProductsTable
