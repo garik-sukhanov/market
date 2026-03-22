@@ -9,9 +9,9 @@ import { lightTokens } from "@/shared/tokens";
 export function Providers({ children }: { children: ReactNode }) {
   return (
     <QueryClientProvider client={queryClient}>
-      <NotificationProvider>
-        <ThemeProvider theme={lightTokens}>{children}</ThemeProvider>
-      </NotificationProvider>
+      <ThemeProvider theme={lightTokens}>
+        <NotificationProvider>{children}</NotificationProvider>
+      </ThemeProvider>
     </QueryClientProvider>
   );
 }
