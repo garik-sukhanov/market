@@ -28,16 +28,16 @@ const Overlay = styled.div`
 `;
 
 const ModalContainer = styled.div`
-  background-color: ${({ theme }) => theme.colors.bgContainer};
-  border-radius: ${({ theme }) => theme.spacing[3]};
   padding: ${({ theme }) => theme.spacing[6]};
   box-shadow: ${({ theme }) => theme.shadows.primary};
-  border: 2px solid ${({ theme }) => theme.colors.textBase};
-  max-width: 500px;
-  width: 90%;
   display: flex;
   flex-direction: column;
   gap: ${({ theme }) => theme.spacing[4]};
+  width: min(527px, 100%);
+  max-width: none;
+  border: none;
+  border-radius: 40px;
+  background-color: ${({ theme }) => theme.colors.white};
 `;
 
 const ModalHeader = styled(Flex)`

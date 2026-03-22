@@ -35,14 +35,7 @@ function LoginPage() {
 export const Component = LoginPage;
 
 const AuthCard = styled(Card)`
-  width: min(527px, 100%);
-  max-width: none;
-  padding: 6px;
   gap: 32px;
-  border: none;
-  border-radius: 40px;
-  background-color: ${({ theme }) => theme.colors.white};
-  box-shadow: 0 24px 28px rgba(0, 0, 0, 0.04);
 `;
 
 const AuthCardInner = styled.div`

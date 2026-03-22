@@ -13,7 +13,7 @@ export const palette = {
 };
 
 const shadows = {
-  primary: "4px 4px 0 0 #221b19",
+  primary: "0 24px 28px rgba(0, 0, 0, 0.04)",
 };
 
 const fonts = {
