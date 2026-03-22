@@ -1,6 +1,7 @@
 import styled from "styled-components";
 
-import { Flex, Table, Typography } from "@/shared/components/ui";
+import { IconDetails, IconPlus } from "@/shared/assets";
+import { Button, Flex, Table, Typography } from "@/shared/components/ui";
 import type { RowSelection } from "@/shared/components/ui/table";
 import { lightTokens } from "@/shared/tokens";
 import type { ProductType } from "@/shared/types";
@@ -152,6 +153,17 @@ export const ProductsTable = ({
           dataIndex: "price",
           key: "price",
           render: (value) => <Price value={value as PriceValue} />,
+        },
+        {
+          title: null,
+          dataIndex: null,
+          key: "actions",
+          render: () => (
+            <Flex>
+              <Button $variant="round" icon={<IconPlus />} />
+              <Button $variant="ghost" icon={<IconDetails />} />
+            </Flex>
+          ),
         },
       ]}
       dataSource={products}

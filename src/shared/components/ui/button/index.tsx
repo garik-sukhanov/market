@@ -83,20 +83,23 @@ const StyledButton = styled.button<StyledButtonProps>`
         return css`
           background-color: transparent;
           color: ${theme.colors.textBase};
+          border-radius: ${({ theme }) => theme.spacing[8]};
           &:hover:not(:disabled) {
-            background-color: ${theme.colors.bgContainer};
+            filter: brightness(1.1);
           }
         `;
       case "round":
         return css`
           background-color: transparent;
-          border-color: ${theme.colors.primary};
+          border: none;
           color: ${theme.colors.primary};
           &:hover:not(:disabled) {
-            background-color: ${theme.colors.primary}10;
+            filter: brightness(1.1);
           }
-          border-radius: 15px;
+          background-color: ${theme.colors.primary};
+          border-radius: 23px;
           min-width: 30px;
+          padding: 2px 14px;
         `;
       case "pagination":
         return css`
