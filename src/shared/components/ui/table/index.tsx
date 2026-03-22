@@ -81,9 +81,9 @@ const SelectionTd = styled(Td)`
 `;
 
 interface Column<T> {
-  title: string;
+  title?: React.ReactNode | null;
   key: string;
-  dataIndex?: keyof T;
+  dataIndex?: keyof T | null;
   render?: (value: T[keyof T] | undefined, record: T) => React.ReactNode;
   order?: "desc" | "asc";
 }
@@ -183,32 +183,37 @@ const Table = <T extends Record<string, unknown>>({
     headerCheckboxRef.current.indeterminate = headerIndeterminate;
   }, [headerIndeterminate]);
 
-  const onHeaderClick = (key: string) => {
+  const isSortDisabledColumn = (col: Column<T>) =>
+    col.dataIndex === null && col.title == null;
+
+  const onHeaderClick = (col: Column<T>) => {
     if (!onClickHeader) return;
+    if (isSortDisabledColumn(col)) return;
 
     if (onDoubleClickHeader) {
       if (clickTimeoutRef.current !== null) {
         window.clearTimeout(clickTimeoutRef.current);
       }
       clickTimeoutRef.current = window.setTimeout(() => {
-        onClickHeader(key);
+        onClickHeader(col.key);
         clickTimeoutRef.current = null;
       }, 200);
       return;
     }
 
-    onClickHeader(key);
+    onClickHeader(col.key);
   };
 
-  const onHeaderDoubleClick = (key: string) => {
+  const onHeaderDoubleClick = (col: Column<T>) => {
     if (!onDoubleClickHeader) return;
+    if (isSortDisabledColumn(col)) return;
 
     if (clickTimeoutRef.current !== null) {
       window.clearTimeout(clickTimeoutRef.current);
       clickTimeoutRef.current = null;
     }
 
-    onDoubleClickHeader(key);
+    onDoubleClickHeader(col.key);
   };
 
   if (loading) {
@@ -223,23 +228,33 @@ const Table = <T extends Record<string, unknown>>({
                 </SelectionTh>
               ) : null}
               {columns.map((col) => (
+                (() => {
+                  const sortDisabled = isSortDisabledColumn(col);
+                  const active = !sortDisabled && activeSortKey === col.key;
+                  const clickable =
+                    !sortDisabled &&
+                    Boolean(onClickHeader || onDoubleClickHeader);
+
+                  return (
                 <Th
                   key={col.key}
-                  $active={activeSortKey === col.key}
-                  $clickable={Boolean(onClickHeader || onDoubleClickHeader)}
-                  onClick={() => onHeaderClick(col.key)}
-                  onDoubleClick={() => onHeaderDoubleClick(col.key)}
+                  $active={active}
+                  $clickable={clickable}
+                  onClick={() => onHeaderClick(col)}
+                  onDoubleClick={() => onHeaderDoubleClick(col)}
                 >
                   <ThContent>
-                    {activeSortKey === col.key ? (
+                    {active ? (
                       <SortIcon
-                        active={activeSortKey === col.key}
+                        active={active}
                         order={activeSortOrder}
                       />
                     ) : null}
                     {col.title}
                   </ThContent>
                 </Th>
+                  );
+                })()
               ))}
             </tr>
           </thead>
@@ -281,23 +296,32 @@ const Table = <T extends Record<string, unknown>>({
               </SelectionTh>
             ) : null}
             {columns.map((col) => (
+              (() => {
+                const sortDisabled = isSortDisabledColumn(col);
+                const active = !sortDisabled && activeSortKey === col.key;
+                const clickable =
+                  !sortDisabled && Boolean(onClickHeader || onDoubleClickHeader);
+
+                return (
               <Th
                 key={col.key}
-                $active={activeSortKey === col.key}
-                $clickable={Boolean(onClickHeader || onDoubleClickHeader)}
-                onClick={() => onHeaderClick(col.key)}
-                onDoubleClick={() => onHeaderDoubleClick(col.key)}
+                $active={active}
+                $clickable={clickable}
+                onClick={() => onHeaderClick(col)}
+                onDoubleClick={() => onHeaderDoubleClick(col)}
               >
                 <ThContent>
-                  {activeSortKey === col.key ? (
+                  {active ? (
                     <SortIcon
-                      active={activeSortKey === col.key}
+                      active={active}
                       order={activeSortOrder}
                     />
                   ) : null}
                   {col.title}
                 </ThContent>
               </Th>
+                );
+              })()
             ))}
           </tr>
         </thead>
@@ -316,10 +340,10 @@ const Table = <T extends Record<string, unknown>>({
                 <Td key={col.key}>
                   {col.render
                     ? col.render(
-                        col.dataIndex ? record[col.dataIndex] : undefined,
+                        col.dataIndex != null ? record[col.dataIndex] : undefined,
                         record,
                       )
-                    : col.dataIndex
+                    : col.dataIndex != null
                       ? (record[col.dataIndex] as React.ReactNode)
                       : null}
                 </Td>
