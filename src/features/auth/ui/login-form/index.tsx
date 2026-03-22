@@ -135,10 +135,12 @@ export const LoginForm = ({ onFinish, id }: LoginFormProps) => {
   const {
     handleSubmit,
     control,
+    setValue,
     formState: { errors },
   } = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
     defaultValues: { username: "", password: "" },
+    reValidateMode: "onBlur",
   });
 
   const onSubmit = (data: LoginFormValues) => {
@@ -165,7 +167,25 @@ export const LoginForm = ({ onFinish, id }: LoginFormProps) => {
                 placeholder="Введите логин"
                 autoComplete="username"
                 $prefix={<IconUser style={{ color: "#EDEDED" }} />}
-                $suffix={<IconX style={{ color: "#C9C9C9" }} />}
+                $suffixInteractive={!!field.value}
+                $suffix={
+                  <IconButton
+                    type="button"
+                    aria-label="Очистить логин"
+                    disabled={!field.value}
+                    tabIndex={field.value ? 0 : -1}
+                    onMouseDown={(e) => e.preventDefault()}
+                    onClick={() =>
+                      setValue("username", "", {
+                        shouldDirty: true,
+                        shouldTouch: true,
+                        shouldValidate: true,
+                      })
+                    }
+                  >
+                    <IconX style={{ color: "#C9C9C9" }} />
+                  </IconButton>
+                }
               />
               {errors.username && (
                 <ErrorText>{errors.username.message}</ErrorText>
