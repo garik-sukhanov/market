@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 import { LogoutButton } from "@/features/auth";
 import { CreateProductModal, ProductsTable } from "@/features/products";
-import { IconArrowsClockwise, IconPlusCircle } from "@/shared/assets";
+import { IconArrowsClockwise, IconPlusCircle, IconX } from "@/shared/assets";
 import {
   Button,
   Flex,
@@ -18,6 +18,18 @@ import { lightTokens } from "@/shared/tokens";
 import type { OrderParamsType } from "@/shared/types/requests";
 
 const LIMIT = 10;
+
+const ClearButton = styled.button`
+  width: 100%;
+  height: 100%;
+  border: none;
+  background: transparent;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+`;
 
 function ProductsListPage() {
   const [currentPage, setCurrentPage] = useState(1);
@@ -68,6 +80,11 @@ function ProductsListPage() {
     setCurrentPage(1);
   };
 
+  const onClearSearchQuery = () => {
+    setSearchQuery("");
+    setCurrentPage(1);
+  };
+
   const onClickTableHeader = (key: string) => {
     setCurrentPage(1);
     if (sortBy === key) {
@@ -97,6 +114,19 @@ function ProductsListPage() {
           placeholder="Введите поисковый запрос"
           value={searchQuery}
           onChange={onChangeSearchQuery}
+          $suffixInteractive={!!searchQuery}
+          $suffix={
+            <ClearButton
+              type="button"
+              aria-label="Очистить поиск"
+              disabled={!searchQuery}
+              tabIndex={searchQuery ? 0 : -1}
+              onMouseDown={(e) => e.preventDefault()}
+              onClick={onClearSearchQuery}
+            >
+              <IconX aria-hidden="true" color={lightTokens.colors.grey3} />
+            </ClearButton>
+          }
         />
         <LogoutButton />
       </StyledHederWrapper>
