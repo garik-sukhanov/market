@@ -1,9 +1,11 @@
-import type { ModalProps } from 'antd';
-import { type ReactElement, useState } from 'react';
+import { type ReactElement, useState } from "react";
 
 export type TriggerProps = {
   children: ReactElement;
-  modal: ReactElement<ModalProps>;
+  modal: ReactElement<{
+    open?: boolean;
+    onCancel?: () => void;
+  }>;
 };
 
 export const Trigger = ({ children, modal }: TriggerProps) => {

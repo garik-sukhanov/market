@@ -6,7 +6,7 @@ import { Button } from "../button";
 import { Flex } from "../flex";
 import { Typography } from "../typography";
 
-interface ModalProps extends ComponentProps<"div"> {
+export interface ModalProps extends ComponentProps<"div"> {
   open?: boolean;
   onCancel?: () => void;
   title?: string;
