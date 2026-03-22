@@ -18,6 +18,7 @@ import {
   InputWrapper,
   Label,
 } from "@/shared/components/ui";
+import { lightTokens } from "@/shared/tokens";
 
 const Form = styled.form`
   display: flex;
@@ -53,7 +54,7 @@ const AuthCheckbox = styled.input.attrs({ type: "checkbox" })`
   width: 24px;
   height: 24px;
   border-radius: 6px;
-  border: 2px solid #ededed;
+  border: ${({ theme }) => theme.colors.grey2} solid 2px;
   background: ${({ theme }) => theme.colors.white};
   appearance: none;
   -webkit-appearance: none;
@@ -94,7 +95,7 @@ const OrDivider = styled.div`
 
 const OrLine = styled.div`
   height: 1px;
-  background: #ededed;
+  background: ${({ theme }) => theme.colors.grey2};
   flex: 1;
 `;
 
@@ -103,7 +104,7 @@ const OrText = styled.span`
   font-size: 16px;
   font-weight: 500;
   line-height: 1.5;
-  color: #ebebeb;
+  color: ${({ theme }) => theme.colors.grey4};
 `;
 
 const IconButton = styled.button`
@@ -166,7 +167,9 @@ export const LoginForm = ({ onFinish, id }: LoginFormProps) => {
                 $fullWidth
                 placeholder="Введите логин"
                 autoComplete="username"
-                $prefix={<IconUser style={{ color: "#EDEDED" }} />}
+                $prefix={
+                  <IconUser style={{ color: lightTokens.colors.grey2 }} />
+                }
                 $suffixInteractive={!!field.value}
                 $suffix={
                   <IconButton
@@ -183,7 +186,7 @@ export const LoginForm = ({ onFinish, id }: LoginFormProps) => {
                       })
                     }
                   >
-                    <IconX style={{ color: "#C9C9C9" }} />
+                    <IconX style={{ color: lightTokens.colors.grey2 }} />
                   </IconButton>
                 }
               />
@@ -210,7 +213,9 @@ export const LoginForm = ({ onFinish, id }: LoginFormProps) => {
                 $fullWidth
                 placeholder="Введите пароль"
                 autoComplete="current-password"
-                $prefix={<IconLock style={{ color: "#EDEDED" }} />}
+                $prefix={
+                  <IconLock style={{ color: lightTokens.colors.grey2 }} />
+                }
                 $suffixInteractive
                 $suffix={
                   <IconButton
@@ -222,9 +227,9 @@ export const LoginForm = ({ onFinish, id }: LoginFormProps) => {
                     onClick={() => setPasswordVisible((value) => !value)}
                   >
                     {isPasswordVisible ? (
-                      <IconEye style={{ color: "#EDEDED" }} />
+                      <IconEye style={{ color: lightTokens.colors.grey2 }} />
                     ) : (
-                      <IconEyeOff style={{ color: "#EDEDED" }} />
+                      <IconEyeOff style={{ color: lightTokens.colors.grey2 }} />
                     )}
                   </IconButton>
                 }
