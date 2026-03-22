@@ -140,7 +140,7 @@ export const LoginForm = ({ onFinish, id }: LoginFormProps) => {
   } = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
     defaultValues: { username: "", password: "" },
-    reValidateMode: "onBlur",
+    reValidateMode: "onChange",
   });
 
   const onSubmit = (data: LoginFormValues) => {
@@ -242,7 +242,12 @@ export const LoginForm = ({ onFinish, id }: LoginFormProps) => {
         <RememberText>Запомнить данные</RememberText>
       </RememberRow>
 
-      <AuthButton type="submit" $variant="primary" $fullWidth>
+      <AuthButton
+        type="submit"
+        $variant="primary"
+        $fullWidth
+        disabled={!!errors.username || !!errors.password}
+      >
         Войти
       </AuthButton>
 
