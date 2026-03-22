@@ -110,7 +110,7 @@ function ProductsListPage() {
               aria-label="Обновить"
               onClick={() => refetch()}
             />
-            <Trigger modal={<CreateProductModal onCreated={() => refetch()} />}>
+            <Trigger modal={<CreateProductModal />}>
               <Button icon={<IconPlusCircle aria-hidden="true" />}>
                 Добавить
               </Button>
