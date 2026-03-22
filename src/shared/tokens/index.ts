@@ -14,6 +14,8 @@ export const palette = {
 
 const shadows = {
   primary: "0 24px 28px rgba(0, 0, 0, 0.04)",
+  secondary: `0 12px 7px rgba(0, 0, 0, 0.03),
+    0 0 0 2px #fff;`,
 };
 
 const fonts = {
@@ -55,6 +57,13 @@ export const lightTokens = {
     ...palette,
     bgBase: "#F3F3F3",
     bgSecondary: "#F9F9F9",
+    bgGradient: `linear-gradient(0deg, rgba(35, 35, 35, 0) 50%, rgba(35, 35, 35, 0.06) 100%),
+    #fff`,
+    bgGradient2: `linear-gradient(
+    180deg,
+    rgba(35, 35, 35, 0.03) 0%,
+    rgba(35, 35, 35, 0) 50%
+  )`,
     textBase: palette.black,
     primary: palette.blue,
     bgContainer: "#F9F9F9",

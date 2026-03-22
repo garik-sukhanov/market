@@ -45,11 +45,7 @@ const AuthCardInner = styled.div`
   display: flex;
   flex-direction: column;
   gap: 32px;
-  background: linear-gradient(
-    180deg,
-    rgba(35, 35, 35, 0.03) 0%,
-    rgba(35, 35, 35, 0) 50%
-  );
+  background: ${({ theme }) => theme.colors.bgGradient2};
   border: 1px solid rgba(237, 237, 237, 0.7);
 
   @media (max-width: 480px) {
@@ -71,13 +67,9 @@ const LogoBubble = styled.div`
   border-radius: 999px;
   display: grid;
   place-items: center;
-  background:
-    linear-gradient(0deg, rgba(35, 35, 35, 0) 50%, rgba(35, 35, 35, 0.06) 100%),
-    #fff;
+  background: ${({ theme }) => theme.colors.bgGradient};
   border: 1px solid rgba(237, 237, 237, 0.7);
-  box-shadow:
-    0 12px 7px rgba(0, 0, 0, 0.03),
-    0 0 0 2px #fff;
+  box-shadow: ${({ theme }) => theme.shadows.secondary};
 `;
 
 function LogoMark() {
