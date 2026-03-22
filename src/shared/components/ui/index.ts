@@ -5,6 +5,7 @@ export {
   type ButtonVariant,
 } from "./button";
 export { Card, CardTitle } from "./card";
+export { Checkbox, type CheckboxProps, type CheckboxVariant } from "./checkbox";
 export { Flex } from "./flex";
 export {
   ErrorText,

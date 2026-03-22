@@ -8,6 +8,7 @@ export const palette = {
   grey5: "#6C6C6C",
   blue: "#242EDB",
   lightBlue: "#367AFF",
+  darkBlue: "#3C538E",
   danger: "#F11010",
 };
 

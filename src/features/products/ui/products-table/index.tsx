@@ -43,7 +43,7 @@ const Rating = ({ value, max }: { value: RatingValue; max: number }) => {
 
   return (
     <>
-      <RatingText $danger={numeric < 3}>{formatRating(numeric)}</RatingText>/
+      <RatingText $danger={numeric < 3.5}>{formatRating(numeric)}</RatingText>/
       <RatingText $danger={false}>{max}</RatingText>
     </>
   );

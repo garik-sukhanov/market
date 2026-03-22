@@ -1,8 +1,9 @@
 import { useEffect, useRef } from "react";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 import type { OrderParamsType } from "@/shared/types/requests";
 
+import { Checkbox, type CheckboxVariant } from "../checkbox";
 import { Skeleton } from "../skeleton";
 
 const TableWrapper = styled.div`
@@ -35,13 +36,21 @@ const Td = styled.td`
   background-color: transparent;
 `;
 
-const Tr = styled.tr`
+const Tr = styled.tr<{ $selected?: boolean }>`
   &:hover {
     background-color: ${({ theme }) => theme.colors.bgBase};
   }
   &:last-child ${Td} {
     border-bottom: none;
   }
+  ${({ $selected, theme }) =>
+    $selected
+      ? css`
+          & > td:first-child {
+            box-shadow: inset 3px 0 0 ${theme.colors.darkBlue};
+          }
+        `
+      : null}
 `;
 
 const ThContent = styled.div`
@@ -57,26 +66,20 @@ export type RowSelection = {
   selected: RowSelectionKey[];
   rowSelection: (key: RowSelectionKey) => void;
   rowSelectionAll: (checked: boolean, keys: RowSelectionKey[]) => void;
+  checkboxVariant?: CheckboxVariant;
 };
-
-const Checkbox = styled.input.attrs({ type: "checkbox" })`
-  width: 16px;
-  height: 16px;
-  cursor: pointer;
-  accent-color: ${({ theme }) => theme.colors.primary};
-`;
 
 const SelectionTh = styled(Th)`
   width: 40px;
-  padding-left: ${({ theme }) => theme.spacing[8]};
-  padding-right: ${({ theme }) => theme.spacing[8]};
+  padding-left: ${({ theme }) => theme.spacing[16]};
+  padding-right: ${({ theme }) => theme.spacing[6]};
   text-align: center;
 `;
 
 const SelectionTd = styled(Td)`
   width: 40px;
-  padding-left: ${({ theme }) => theme.spacing[8]};
-  padding-right: ${({ theme }) => theme.spacing[8]};
+  padding-left: ${({ theme }) => theme.spacing[16]};
+  padding-right: ${({ theme }) => theme.spacing[6]};
   text-align: center;
 `;
 
@@ -166,6 +169,8 @@ const Table = <T extends Record<string, unknown>>({
 }: TableProps<T>) => {
   const clickTimeoutRef = useRef<number | null>(null);
   const headerCheckboxRef = useRef<HTMLInputElement | null>(null);
+  const checkboxVariant: CheckboxVariant =
+    rowSelection?.checkboxVariant ?? "filled";
 
   const allRowKeys = (dataSource || []).map(rowKey);
   const selectedSet = new Set(rowSelection?.selected || []);
@@ -225,10 +230,10 @@ const Table = <T extends Record<string, unknown>>({
             <tr>
               {rowSelection ? (
                 <SelectionTh $clickable={false}>
-                  <Checkbox disabled={true} />
+                  <Checkbox variant={checkboxVariant} disabled={true} />
                 </SelectionTh>
               ) : null}
-              {columns.map((col) => (
+              {columns.map((col) =>
                 (() => {
                   const sortDisabled = isSortDisabledColumn(col);
                   const active = !sortDisabled && activeSortKey === col.key;
@@ -237,26 +242,23 @@ const Table = <T extends Record<string, unknown>>({
                     Boolean(onClickHeader || onDoubleClickHeader);
 
                   return (
-                <Th
-                  key={col.key}
-                  $active={active}
-                  $clickable={clickable}
-                  onClick={() => onHeaderClick(col)}
-                  onDoubleClick={() => onHeaderDoubleClick(col)}
-                >
-                  <ThContent>
-                    {active ? (
-                      <SortIcon
-                        active={active}
-                        order={activeSortOrder}
-                      />
-                    ) : null}
-                    {col.title}
-                  </ThContent>
-                </Th>
+                    <Th
+                      key={col.key}
+                      $active={active}
+                      $clickable={clickable}
+                      onClick={() => onHeaderClick(col)}
+                      onDoubleClick={() => onHeaderDoubleClick(col)}
+                    >
+                      <ThContent>
+                        {active ? (
+                          <SortIcon active={active} order={activeSortOrder} />
+                        ) : null}
+                        {col.title}
+                      </ThContent>
+                    </Th>
                   );
-                })()
-              ))}
+                })(),
+              )}
             </tr>
           </thead>
           <tbody>
@@ -289,6 +291,7 @@ const Table = <T extends Record<string, unknown>>({
               <SelectionTh $clickable={false}>
                 <Checkbox
                   ref={headerCheckboxRef}
+                  variant={checkboxVariant}
                   checked={headerChecked}
                   onChange={(e) =>
                     rowSelection.rowSelectionAll(e.target.checked, allRowKeys)
@@ -296,42 +299,46 @@ const Table = <T extends Record<string, unknown>>({
                 />
               </SelectionTh>
             ) : null}
-            {columns.map((col) => (
+            {columns.map((col) =>
               (() => {
                 const sortDisabled = isSortDisabledColumn(col);
                 const active = !sortDisabled && activeSortKey === col.key;
                 const clickable =
-                  !sortDisabled && Boolean(onClickHeader || onDoubleClickHeader);
+                  !sortDisabled &&
+                  Boolean(onClickHeader || onDoubleClickHeader);
 
                 return (
-              <Th
-                key={col.key}
-                $active={active}
-                $clickable={clickable}
-                onClick={() => onHeaderClick(col)}
-                onDoubleClick={() => onHeaderDoubleClick(col)}
-              >
-                <ThContent>
-                  {active ? (
-                    <SortIcon
-                      active={active}
-                      order={activeSortOrder}
-                    />
-                  ) : null}
-                  {col.title}
-                </ThContent>
-              </Th>
+                  <Th
+                    key={col.key}
+                    $active={active}
+                    $clickable={clickable}
+                    onClick={() => onHeaderClick(col)}
+                    onDoubleClick={() => onHeaderDoubleClick(col)}
+                  >
+                    <ThContent>
+                      {active ? (
+                        <SortIcon active={active} order={activeSortOrder} />
+                      ) : null}
+                      {col.title}
+                    </ThContent>
+                  </Th>
                 );
-              })()
-            ))}
+              })(),
+            )}
           </tr>
         </thead>
         <tbody>
           {dataSource?.map((record) => (
-            <Tr key={rowKey(record)}>
+            <Tr
+              key={rowKey(record)}
+              $selected={
+                rowSelection ? selectedSet.has(rowKey(record)) : undefined
+              }
+            >
               {rowSelection ? (
                 <SelectionTd>
                   <Checkbox
+                    variant={checkboxVariant}
                     checked={selectedSet.has(rowKey(record))}
                     onChange={() => rowSelection.rowSelection(rowKey(record))}
                   />
@@ -341,7 +348,9 @@ const Table = <T extends Record<string, unknown>>({
                 <Td key={col.key}>
                   {col.render
                     ? col.render(
-                        col.dataIndex != null ? record[col.dataIndex] : undefined,
+                        col.dataIndex != null
+                          ? record[col.dataIndex]
+                          : undefined,
                         record,
                       )
                     : col.dataIndex != null
