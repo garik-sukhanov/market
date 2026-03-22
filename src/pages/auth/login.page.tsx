@@ -147,9 +147,8 @@ const Footer = styled.p`
 `;
 
 const FooterLink = styled(Link)`
-  color: inherit;
   font-weight: inherit;
-  text-decoration: none;
+  text-decoration: underline;
 
   &:hover {
     text-decoration: underline;

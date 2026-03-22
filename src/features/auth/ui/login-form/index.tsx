@@ -1,8 +1,16 @@
+import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import styled from "styled-components";
 import { z } from "zod";
 
+import {
+  IconEye,
+  IconEyeOff,
+  IconLock,
+  IconUser,
+  IconX,
+} from "@/shared/assets";
 import {
   Button,
   ErrorText,
@@ -15,6 +23,8 @@ const Form = styled.form`
   display: flex;
   flex-direction: column;
   gap: 20px;
+  width: 100%;
+  max-width: 400px;
 `;
 
 const Fields = styled.div`
@@ -96,126 +106,16 @@ const OrText = styled.span`
   color: #ebebeb;
 `;
 
-function IconUser(props: React.SVGProps<SVGSVGElement>) {
-  return (
-    <svg
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      aria-hidden="true"
-      {...props}
-    >
-      <path
-        d="M20 21a8 8 0 0 0-16 0"
-        stroke="#EDEDED"
-        strokeWidth="2"
-        strokeLinecap="round"
-      />
-      <path
-        d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z"
-        stroke="#EDEDED"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
-}
-
-function IconLock(props: React.SVGProps<SVGSVGElement>) {
-  return (
-    <svg
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      aria-hidden="true"
-      {...props}
-    >
-      <path
-        d="M17 10V8a5 5 0 0 0-10 0v2"
-        stroke="#EDEDED"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      <path
-        d="M7 10h10a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2Z"
-        stroke="#EDEDED"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
-}
-
-function IconX(props: React.SVGProps<SVGSVGElement>) {
-  return (
-    <svg
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      aria-hidden="true"
-      {...props}
-    >
-      <path
-        d="M18 6 6 18M6 6l12 12"
-        stroke="#C9C9C9"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
-}
-
-function IconEyeOff(props: React.SVGProps<SVGSVGElement>) {
-  return (
-    <svg
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      aria-hidden="true"
-      {...props}
-    >
-      <path
-        d="M10.58 10.58a2 2 0 0 0 2.83 2.83"
-        stroke="#EDEDED"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      <path
-        d="M9.88 4.24A10.05 10.05 0 0 1 12 4c5 0 9 5 9 8 0 1.02-.4 2.11-1.1 3.18"
-        stroke="#EDEDED"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      <path
-        d="M6.11 6.11C4.12 7.79 3 10.02 3 12c0 3 4 8 9 8 1.2 0 2.34-.25 3.39-.68"
-        stroke="#EDEDED"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      <path
-        d="M3 3l18 18"
-        stroke="#EDEDED"
-        strokeWidth="2"
-        strokeLinecap="round"
-      />
-    </svg>
-  );
-}
+const IconButton = styled.button`
+  width: 100%;
+  height: 100%;
+  border: none;
+  background: transparent;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+`;
 
 const loginSchema = z.object({
   username: z.string().min(4, "Не менее 4 символов"),
@@ -230,6 +130,8 @@ export interface LoginFormProps {
 }
 
 export const LoginForm = ({ onFinish, id }: LoginFormProps) => {
+  const [isPasswordVisible, setPasswordVisible] = useState(false);
+
   const {
     handleSubmit,
     control,
@@ -282,14 +184,30 @@ export const LoginForm = ({ onFinish, id }: LoginFormProps) => {
               <Input
                 {...field}
                 id="login-password"
-                type="password"
+                type={isPasswordVisible ? "text" : "password"}
                 $variant="auth"
                 $error={!!errors.password}
                 $fullWidth
                 placeholder="Введите пароль"
                 autoComplete="current-password"
                 $prefix={<IconLock style={{ color: "#EDEDED" }} />}
-                $suffix={<IconEyeOff style={{ color: "#EDEDED" }} />}
+                $suffixInteractive
+                $suffix={
+                  <IconButton
+                    type="button"
+                    aria-label={
+                      isPasswordVisible ? "Скрыть пароль" : "Показать пароль"
+                    }
+                    onMouseDown={(e) => e.preventDefault()}
+                    onClick={() => setPasswordVisible((value) => !value)}
+                  >
+                    {isPasswordVisible ? (
+                      <IconEye style={{ color: "#EDEDED" }} />
+                    ) : (
+                      <IconEyeOff style={{ color: "#EDEDED" }} />
+                    )}
+                  </IconButton>
+                }
               />
               {errors.password && (
                 <ErrorText>{errors.password.message}</ErrorText>

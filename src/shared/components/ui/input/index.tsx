@@ -8,6 +8,8 @@ export type StyledInputProps = ComponentProps<"input"> & {
   $fullWidth?: boolean;
   $prefix?: React.ReactNode;
   $suffix?: React.ReactNode;
+  $prefixInteractive?: boolean;
+  $suffixInteractive?: boolean;
   $wrapperProps?: ComponentProps<"div">;
   $variant?: InputVariant;
 };
@@ -99,6 +101,7 @@ const InputAffixContainer = styled.div<{
 const InputAffix = styled.span<{
   $position: "left" | "right";
   $variant?: InputVariant;
+  $interactive?: boolean;
 }>`
   position: absolute;
   top: 50%;
@@ -117,7 +120,8 @@ const InputAffix = styled.span<{
   align-items: center;
   justify-content: center;
   color: ${({ theme }) => `${theme.colors.textBase}80`};
-  pointer-events: none;
+  pointer-events: ${({ $interactive }) => ($interactive ? "auto" : "none")};
+  cursor: ${({ $interactive }) => ($interactive ? "pointer" : "default")};
 
   svg {
     width: 100%;
@@ -137,7 +141,19 @@ const InputAffix = styled.span<{
 `;
 
 const Input = forwardRef<HTMLInputElement, StyledInputProps>(
-  ({ $prefix, $suffix, $fullWidth, $wrapperProps, $variant, ...props }, ref) => {
+  (
+    {
+      $prefix,
+      $suffix,
+      $fullWidth,
+      $wrapperProps,
+      $variant,
+      $prefixInteractive,
+      $suffixInteractive,
+      ...props
+    },
+    ref,
+  ) => {
     const hasPrefix = !!$prefix;
     const hasSuffix = !!$suffix;
 
@@ -160,7 +176,11 @@ const Input = forwardRef<HTMLInputElement, StyledInputProps>(
         {...$wrapperProps}
       >
         {hasPrefix && (
-          <InputAffix $position="left" $variant={$variant}>
+          <InputAffix
+            $position="left"
+            $variant={$variant}
+            $interactive={$prefixInteractive}
+          >
             {$prefix}
           </InputAffix>
         )}
@@ -173,7 +193,11 @@ const Input = forwardRef<HTMLInputElement, StyledInputProps>(
           {...props}
         />
         {hasSuffix && (
-          <InputAffix $position="right" $variant={$variant}>
+          <InputAffix
+            $position="right"
+            $variant={$variant}
+            $interactive={$suffixInteractive}
+          >
             {$suffix}
           </InputAffix>
         )}
