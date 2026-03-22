@@ -1,7 +1,13 @@
 import styled from "styled-components";
 
 import { IconDetails, IconPlus } from "@/shared/assets";
-import { Button, Flex, Table, Typography } from "@/shared/components/ui";
+import {
+  Button,
+  Flex,
+  Skeleton,
+  Table,
+  Typography,
+} from "@/shared/components/ui";
 import type { RowSelection } from "@/shared/components/ui/table";
 import { lightTokens } from "@/shared/tokens";
 import type { ProductType } from "@/shared/types";
@@ -82,6 +88,21 @@ const Photo = styled.img`
   background-color: ${({ theme }) => theme.colors.grey2};
 `;
 
+const PhotoSkeleton = styled(Skeleton)`
+  width: 48px;
+  height: 48px;
+  flex: 0 0 48px;
+  border-radius: ${({ theme }) => theme.spacing[4]};
+`;
+
+const TextLineSkeleton = styled(Skeleton)`
+  height: 22px;
+`;
+
+const ActionButtonSkeleton = styled(Skeleton)`
+  height: 30px;
+`;
+
 export type ProductsTableProps = {
   products: ProductType[] | undefined;
   loading?: boolean;
@@ -114,6 +135,15 @@ export const ProductsTable = ({
           title: "Наименование",
           dataIndex: "title",
           key: "title",
+          skeleton: (
+            <Flex $gap={4}>
+              <PhotoSkeleton />
+              <Flex $vertical>
+                <TextLineSkeleton $width="220px" />
+                <TextLineSkeleton $width="140px" $height="20px" />
+              </Flex>
+            </Flex>
+          ),
           render: (value, { images, category }) => (
             <Flex $gap={4}>
               <Photo src={images?.[0] || ""} alt={value as string} />
@@ -130,6 +160,7 @@ export const ProductsTable = ({
           title: "Вендор",
           dataIndex: "brand",
           key: "brand",
+          skeleton: <TextLineSkeleton $width="120px" />,
           render: (value) => (
             <Typography $weight="bold">{value as string}</Typography>
           ),
@@ -138,6 +169,7 @@ export const ProductsTable = ({
           title: "Артикул",
           dataIndex: "id",
           key: "id",
+          skeleton: <TextLineSkeleton $width="80px" />,
           render: (value) => (
             <Typography $uppercase>{value as string}</Typography>
           ),
@@ -146,22 +178,30 @@ export const ProductsTable = ({
           title: "Оценка",
           dataIndex: "rating",
           key: "rating",
+          skeleton: <TextLineSkeleton $width="52px" />,
           render: (value) => <Rating value={value as RatingValue} max={5} />,
         },
         {
-          title: "Цена",
+          title: "Цена, ₽",
           dataIndex: "price",
           key: "price",
+          skeleton: <TextLineSkeleton $width="84px" />,
           render: (value) => <Price value={value as PriceValue} />,
         },
         {
           title: null,
           dataIndex: null,
           key: "actions",
+          skeleton: (
+            <Flex>
+              <ActionButtonSkeleton $width="44px" $borderRadius="23px" />
+              <ActionButtonSkeleton $width="44px" $borderRadius="16px" />
+            </Flex>
+          ),
           render: () => (
             <Flex>
               <Button $variant="round" icon={<IconPlus />} />
-              <Button $variant="ghost" icon={<IconDetails />} />
+              <Button $variant="ghost" $size="small" icon={<IconDetails />} />
             </Flex>
           ),
         },

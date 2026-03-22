@@ -86,6 +86,7 @@ interface Column<T> {
   dataIndex?: keyof T | null;
   render?: (value: T[keyof T] | undefined, record: T) => React.ReactNode;
   order?: "desc" | "asc";
+  skeleton?: React.ReactNode;
 }
 
 interface TableProps<T> {
@@ -268,7 +269,7 @@ const Table = <T extends Record<string, unknown>>({
                 ) : null}
                 {columns.map((col) => (
                   <Td key={`skeleton-cell-${rowIndex}-${col.key}`}>
-                    <Skeleton $height="20px" $width="80%" />
+                    {col.skeleton ?? <Skeleton $height="20px" $width="80%" />}
                   </Td>
                 ))}
               </Tr>
