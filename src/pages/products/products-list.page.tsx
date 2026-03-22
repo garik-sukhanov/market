@@ -13,6 +13,7 @@ import {
 } from "@/shared/components/ui";
 import { useDebounce } from "@/shared/hooks";
 import { useProductsSearchQuery } from "@/shared/hooks/products";
+import { lightTokens } from "@/shared/tokens";
 import type { OrderParamsType } from "@/shared/types/requests";
 
 const LIMIT = 10;
@@ -128,9 +129,10 @@ function ProductsListPage() {
         />
         <Flex $fullWidth $justify="space-between" style={{ padding: "52px 0" }}>
           <Typography>
-            {`Показано ${currentPage * LIMIT - LIMIT + 1}-${currentPage * LIMIT} из ${
-              data?.total || 0
-            }`}
+            <Typography $color={lightTokens.colors.grey3}>Показано</Typography>{" "}
+            {currentPage * LIMIT - LIMIT + 1}-{currentPage * LIMIT}{" "}
+            <Typography $color={lightTokens.colors.grey3}>из</Typography>{" "}
+            {data?.total || 0}
           </Typography>
           <Pagination
             current={currentPage}
