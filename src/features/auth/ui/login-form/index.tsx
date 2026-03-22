@@ -141,6 +141,7 @@ export const LoginForm = ({ onFinish, id }: LoginFormProps) => {
   } = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
     defaultValues: { username: "", password: "" },
+    mode: "onChange",
     reValidateMode: "onChange",
   });
 
