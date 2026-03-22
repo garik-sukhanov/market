@@ -2,6 +2,9 @@ import { type ComponentProps, useEffect } from "react";
 import { createPortal } from "react-dom";
 import styled from "styled-components";
 
+import { IconX } from "@/shared/assets";
+import { lightTokens } from "@/shared/tokens";
+
 import { Button } from "../button";
 import { Flex } from "../flex";
 import { Typography } from "../typography";
@@ -44,7 +47,6 @@ const Content = styled.div`
   flex: 1;
   max-height: 70vh;
   overflow-y: auto;
-  overflow-x: hidden;
 `;
 
 const ModalHeader = styled(Flex)`
@@ -72,7 +74,7 @@ const Modal = ({ open, onCancel, title, children, footer }: ModalProps) => {
         <ModalHeader $justify="space-between" $align="center">
           <Typography $variant="h3">{title}</Typography>
           <Button $variant="ghost" $size="small" onClick={onCancel}>
-            ✕
+            <IconX style={{ color: lightTokens.colors.grey2 }} />
           </Button>
         </ModalHeader>
         <Content>{children}</Content>
