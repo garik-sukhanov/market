@@ -42,6 +42,7 @@ const StyledButton = styled.button<StyledButtonProps>`
         return css`
           padding: ${theme.spacing[2]} ${theme.spacing[4]};
           font-size: 14px;
+          height: 27px;
         `;
       case "large":
         return css`
@@ -87,6 +88,8 @@ const StyledButton = styled.button<StyledButtonProps>`
           &:hover:not(:disabled) {
             filter: brightness(1.1);
           }
+          padding: 0;
+          border: none;
         `;
       case "round":
         return css`

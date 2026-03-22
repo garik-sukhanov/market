@@ -199,8 +199,8 @@ export const ProductsTable = ({
             </Flex>
           ),
           render: () => (
-            <Flex>
-              <Button $variant="round" icon={<IconPlus />} />
+            <Flex $align="center" $gap={32}>
+              <Button $variant="round" $size="small" icon={<IconPlus />} />
               <Button $variant="ghost" $size="small" icon={<IconDetails />} />
             </Flex>
           ),
