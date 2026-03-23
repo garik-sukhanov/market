@@ -1,0 +1,15 @@
+name: Node Setup
+description: Checkout repository, setup Node.js and install dependencies
+runs:
+  using: composite
+  steps:
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '22'
+    - name: Enable Corepack (Yarn)
+      shell: bash
+      run: corepack enable
+    - name: Install dependencies
+      shell: bash
+      run: yarn install

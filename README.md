@@ -1,75 +1,109 @@
-# React + TypeScript + Vite
+# Market App — Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Фронтенд приложения для управления маркетплейсом.
+SPA на React + Vite с поддержкой авторизации, защищёнными маршрутами и Docker-окружением.
 
-Currently, two official plugins are available:
+### ВАРИАНТЫ БЫСТРОГО ЗАПУСКА
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+Предварительно переименуйте файл .env.example в .env что бы URL бэкенда был задан корректно.
 
-## React Compiler
+1.  Потребуется только установленный на компьютер Docker
 
-The React Compiler is enabled on this template. See [this documentation](https://react.dev/learn/react-compiler) for more information.
+- `yarn docker:dev:build`
+- `yarn docker:dev:start`
 
-Note: This will impact Vite dev & build performances.
+2.  Потребуется установленный Node.js и Yarn
 
-## Expanding the ESLint configuration
+- `yarn install`
+- `yarn dev`
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+или с npm:
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- `npm install`
+- `npm run dev`
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+### ОПИСАНИЕ ПРОЕКТА
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+---
+
+## Стек технологий
+
+| Категория   | Технологии                                                  |
+| ----------- | ----------------------------------------------------------- | ----------------------- | --- |
+| **Core**    | React 19, React Router DOM v7                               |
+| **Стили**   | Styled Components                                           |
+| **UI**      | Кастомные компоненты, без использования сторонних библиотек |
+| **Запросы** | TanStack React Query v5, Axios                              |
+| **Формы**   | React Hook Form + Zod                                       |
+| **Сборка**  | Vite 6, TypeScript 5.8                                      |
+| <!--        | **Тесты**                                                   | Vitest, Testing Library | --> |
+| **Линтинг** | ESLint 9, Prettier                                          |
+| **Docker**  | Docker Compose (dev / prod)                                 |
+
+---
+
+## Функционал
+
+- 🔐 **Авторизация** — регистрация и вход (JWT)
+- 🔒 **Защищённые маршруты** — с редиректом на логин
+- 📝 **Маркетплейс** — просмотр и управление товарами пользователя
+- 📝 **Таблицы** — просмотр и сортировка данных по различным ключам
+- ⚡ **Кэш запросов** — через React Query с devtools
+<!-- - 🧪 **Тесты** — unit и интеграционные тесты  -->
+
+---
+
+## Быстрый старт
+
+### 1. Переменные окружения
+
+Скопируйте файл с примером и задайте URL бэкенда:
+
+```bash
+cp example.env .env
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+По умолчанию: `VITE_API_BASE_URL=http://localhost:5174`
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+---
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+### Запуск
+
+### 🚀 Docker — продакшн
+
+Оптимизированная сборка через Nginx:
+
+```bash
+# Первый запуск (сборка образа)
+yarn docker:prod:build
+
+# Запуск в фоне
+yarn docker:prod:start
+
+# Остановка
+yarn docker:prod:stop
+```
+
+Откройте: [LOCALHOST](http://localhost:5173/)
+
+---
+
+## Прочие команды
+
+```bash
+yarn lint          # Линтинг и автоисправление
+yarn format        # Форматирование кода (Prettier)
+yarn test          # Запуск тестов
+```
+
+---
+
+## Структура проекта
+
+```
+src/
+├── app/          # Роутер, провайдеры, лейауты
+├── pages/        # Страницы: auth, products
+├── features/     # Фичи: auth, products,
+└── shared/       # Компоненты, хуки, утилиты, модели
 ```
