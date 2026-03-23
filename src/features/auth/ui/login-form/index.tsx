@@ -121,6 +121,7 @@ const IconButton = styled.button`
 const loginSchema = z.object({
   username: z.string().min(4, "Не менее 4 символов"),
   password: z.string().min(8, "Не менее 8 символов"),
+  rememberMe: z.boolean(),
 });
 
 export type LoginFormValues = z.infer<typeof loginSchema>;
@@ -140,7 +141,7 @@ export const LoginForm = ({ onFinish, id }: LoginFormProps) => {
     formState: { errors },
   } = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
-    defaultValues: { username: "", password: "" },
+    defaultValues: { username: "", password: "", rememberMe: false },
     mode: "onChange",
     reValidateMode: "onChange",
   });
@@ -243,10 +244,22 @@ export const LoginForm = ({ onFinish, id }: LoginFormProps) => {
         />
       </Fields>
 
-      <RememberRow>
-        <AuthCheckbox name="rememberMe" />
-        <RememberText>Запомнить данные</RememberText>
-      </RememberRow>
+      <Controller
+        name="rememberMe"
+        control={control}
+        render={({ field }) => (
+          <RememberRow>
+            <AuthCheckbox
+              id="login-rememberMe"
+              checked={field.value}
+              onBlur={field.onBlur}
+              onChange={(e) => field.onChange(e.target.checked)}
+              ref={field.ref}
+            />
+            <RememberText>Запомнить данные</RememberText>
+          </RememberRow>
+        )}
+      />
 
       <AuthButton
         type="submit"

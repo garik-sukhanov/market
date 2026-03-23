@@ -11,19 +11,48 @@ type Session = {
   expiresInMins: number;
 };
 
+type TokenStorage = "local" | "session";
+
 let refreshTokenPromise: Promise<string | null> | null = null;
 
-export const useSession = createGStore(() => {
-  const [token, setToken] = useState(() => localStorage.getItem(TOKEN_KEY));
+const getStoredToken = () =>
+  localStorage.getItem(TOKEN_KEY) ?? sessionStorage.getItem(TOKEN_KEY);
 
-  const login = (token: string) => {
-    localStorage.setItem(TOKEN_KEY, token);
-    setToken(token);
+const getStoredTokenStorage = (): TokenStorage | null => {
+  if (localStorage.getItem(TOKEN_KEY)) return "local";
+  if (sessionStorage.getItem(TOKEN_KEY)) return "session";
+  return null;
+};
+
+export const useSession = createGStore(() => {
+  const [token, setToken] = useState(() => getStoredToken());
+  const [tokenStorage, setTokenStorage] = useState<TokenStorage | null>(() =>
+    getStoredTokenStorage(),
+  );
+
+  const setStoredToken = (nextToken: string, storage: TokenStorage) => {
+    localStorage.removeItem(TOKEN_KEY);
+    sessionStorage.removeItem(TOKEN_KEY);
+
+    if (storage === "local") {
+      localStorage.setItem(TOKEN_KEY, nextToken);
+    } else {
+      sessionStorage.setItem(TOKEN_KEY, nextToken);
+    }
+
+    setToken(nextToken);
+    setTokenStorage(storage);
+  };
+
+  const login = (token: string, rememberMe: boolean) => {
+    setStoredToken(token, rememberMe ? "local" : "session");
   };
 
   const logout = () => {
     localStorage.removeItem(TOKEN_KEY);
+    sessionStorage.removeItem(TOKEN_KEY);
     setToken(null);
+    setTokenStorage(null);
   };
 
   const session = token ? jwtDecode<Session>(token) : null;
@@ -42,7 +71,9 @@ export const useSession = createGStore(() => {
           .then((r) => r.data?.accessToken ?? null)
           .then((newToken) => {
             if (newToken) {
-              login(newToken);
+              const storage =
+                tokenStorage ?? getStoredTokenStorage() ?? "local";
+              setStoredToken(newToken, storage);
               return newToken;
             } else {
               logout();
