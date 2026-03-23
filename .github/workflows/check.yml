@@ -17,12 +17,3 @@ jobs:
         uses: ./.github/actions/node-setup
       - name: Lint
         run: yarn lint
-  test:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v5
-      - name: Setup Node and install deps
-        uses: ./.github/actions/node-setup
-      - name: Test
-        run: yarn test

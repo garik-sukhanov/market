@@ -15,17 +15,8 @@ jobs:
         uses: ./.github/actions/node-setup
       - name: Lint
         run: yarn lint
-  test:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v5
-      - name: Setup Node and install deps
-        uses: ./.github/actions/node-setup
-      - name: Test
-        run: yarn test
   build:
-    needs: [lint, test]
+    needs: [lint]
     name: Build
     runs-on: ubuntu-latest
     steps:
